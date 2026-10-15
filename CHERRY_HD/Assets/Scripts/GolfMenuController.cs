@@ -27,6 +27,8 @@ public class GolfMenuController : MonoBehaviour
 
     public void StartGame()
     {
+        Data.duration = SelectedDurationSeconds;
+        Debug.Log("Selected Duration in seconds: %d", Data.duration);
         SceneManager.LoadScene("GolfGamePlay");
     }
     

@@ -5,19 +5,9 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    public float timeRemaining = 0;     // in seconds
-    public bool timerRunning = false;
+    public float timeRemaining = Data.duration;     // in seconds
+    public bool timerRunning = true;
     public TMP_Text timeDisplay;
-
-    public void Set(float time)
-    {
-        timeRemaining = time >= 0 ? time : 0;
-    }
-
-    public void Start()
-    {
-        timerRunning = true;
-    }
 
     private void Update()
     {
