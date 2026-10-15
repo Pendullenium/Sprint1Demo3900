@@ -6,8 +6,17 @@ public class GolfMenuController : MonoBehaviour
 {
     [Header("Menu panels")]
     public GameObject welcomePanel;
+    public GameObject gameSelectionPanel;
     public GameObject matchDurationPanel;
     public GameObject golfInstructionsPanel;
+
+    [Header("Game buttons")]
+    public Button golfButton;
+    public Button airHockeyButton;
+    public Button tennisButton;
+    public Button goalKeepingButton;
+    public Button chestPassButton;
+    public Button gameContinue;
 
     [Header("Duration buttons")]
     public Button shortButton;
@@ -34,6 +43,11 @@ public class GolfMenuController : MonoBehaviour
     public void ShowWelcome()
     {
         ShowPanel(welcomePanel);
+    }
+
+    public void ShowGameSelection()
+    {
+        ShowPanel(gameSelectionPanel);
     }
 
     public void ShowMatchDuration()
@@ -129,9 +143,15 @@ public class GolfMenuController : MonoBehaviour
 
     private void ShowPanel(GameObject selectedPanel)
     {
+        Debug.Log(selectedPanel != null);
         if (welcomePanel != null)
         {
             welcomePanel.SetActive(selectedPanel == welcomePanel);
+        }
+
+        if (gameSelectionPanel != null)
+        {
+            gameSelectionPanel.SetActive(selectedPanel == gameSelectionPanel);
         }
 
         if (matchDurationPanel != null)
