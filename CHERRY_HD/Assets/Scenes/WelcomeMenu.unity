@@ -3099,14 +3099,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2077643097}
         m_TargetAssemblyTypeName: GolfMenuController, Assembly-CSharp
-        m_MethodName: SelectShort
-        m_Mode: 1
+        m_MethodName: SelectGame
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: GolfGamePlay
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1040174048
@@ -3743,14 +3743,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2077643097}
         m_TargetAssemblyTypeName: GolfMenuController, Assembly-CSharp
-        m_MethodName: SelectMedium
-        m_Mode: 1
+        m_MethodName: SelectGame
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: AirHockeyPlay
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1324919192

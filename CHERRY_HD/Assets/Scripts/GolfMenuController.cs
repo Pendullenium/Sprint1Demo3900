@@ -37,7 +37,7 @@ public class GolfMenuController : MonoBehaviour
     public void StartGame()
     {
         Data.duration = SelectedDurationSeconds;
-        SceneManager.LoadScene("GolfGamePlay");
+        SceneManager.LoadScene(currentGame);
     }
     
     public void ShowWelcome()
@@ -52,6 +52,10 @@ public class GolfMenuController : MonoBehaviour
 
     public void ShowMatchDuration()
     {
+        if (currentGame == null)
+        {
+            return;
+        }
         ShowPanel(matchDurationPanel);
         UpdateDurationButtons();
     }
@@ -76,6 +80,15 @@ public class GolfMenuController : MonoBehaviour
         SelectedDurationSeconds = seconds;
         UpdateDurationButtons();
     }
+
+    private string currentGame = null;
+
+    public void SelectGame(string game)
+    {
+        currentGame = game;
+    }
+
+
 
     private void UpdateDurationButtons()
     {
