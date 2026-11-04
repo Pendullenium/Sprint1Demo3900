@@ -33,7 +33,14 @@ public class FootballController : MonoBehaviour
 
     private void Awake()
     {
-        if (footballBody == null) footballBody = GetComponent<Rigidbody>();
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(false);
+        }
+        if (footballBody == null)
+        {
+            footballBody = GetComponent<Rigidbody>();
+        }
         Shoot();
         
     }
