@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 [System.Serializable]
 public class GameDurations
@@ -10,7 +9,6 @@ public class GameDurations
     public int mediumDuration = 180;
     public int longDuration = 300;
 }
-
 
 public class GameMenu : MonoBehaviour
 {
@@ -23,21 +21,19 @@ public class GameMenu : MonoBehaviour
     public Button sportContinueButton;
     public Button durationContinueButton;
 
-     [Header("Game Durations (seconds)")]
+    [Header("Game Durations (seconds)")]
     public GameDurations golfDurations;
     public GameDurations tennisDurations;
     public GameDurations airHockeyDurations;
     public GameDurations goalkeepingDurations;
     public GameDurations chestPassDurations;
 
-
-
     [Header("Game Scene Names")]
     public string golfScene = "GolfGamePlay";
     public string airHockeyScene = "AirHockeyPlay";
     public string tennisScene = "TennisPlay";
     public string goalkeepingScene = "GoalkeepingPlay";
-    public string chestPassScene = "ChestPassPlay";
+    public string chestPassScene = "ChestPassScene";
 
     public static int SelectedDurationSeconds { get; private set; }
 
@@ -82,11 +78,9 @@ public class GameMenu : MonoBehaviour
         selectedSport = sport;
         selectedScene = scene;
 
-        // Require a new duration selection for each sport.
         SelectedDurationSeconds = 0;
         sportContinueButton.interactable = true;
     }
-
 
     public void SelectGolf()
     {
@@ -173,9 +167,9 @@ public class GameMenu : MonoBehaviour
 
         durationContinueButton.interactable = true;
 
-        Debug.Log(selectedSport + ": " +
-                  duration + " selected (" +
-                  SelectedDurationSeconds + " seconds)");
+        UnityEngine.Debug.Log(selectedSport + ": " +
+                      duration + " selected (" +
+                      SelectedDurationSeconds + " seconds)");
     }
 
     private GameDurations GetSelectedDurations()
@@ -206,9 +200,8 @@ public class GameMenu : MonoBehaviour
     {
         if (SelectedDurationSeconds <= 0)
             return;
-        Debug.Log("Loading scene: " + selectedScene);
+
+        UnityEngine.Debug.Log("Loading scene: " + selectedScene);
         SceneManager.LoadScene(selectedScene);
     }
-
-    
 }

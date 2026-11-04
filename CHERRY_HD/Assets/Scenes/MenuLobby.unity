@@ -27589,8 +27589,8 @@ MonoBehaviour:
   golfScene: GolfGamePlay
   airHockeyScene: AirHockeyPlay
   tennisScene: Tennis
-  goalkeepingScene: Goalkeeping
-  chestPassScene: ChestPass
+  goalkeepingScene: GoalkeepingPlay
+  chestPassScene: ChestPassScene
   selectedSport: 
   selectionGlow: {fileID: 112690885}
   sportButtons:

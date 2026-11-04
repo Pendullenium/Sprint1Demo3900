@@ -9,6 +9,12 @@ TagManager:
   - ScreenCamera
   - cockpit_capitalLaser
   - GolfBall
+  - PlayerBumper
+  - OpponentPaddle
+  - PlayerPaddle
+  - GoalNet
+  - Glove
+  - GoalLine
   layers:
   - Default
   - TransparentFX
