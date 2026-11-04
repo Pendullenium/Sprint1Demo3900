@@ -27588,7 +27588,7 @@ MonoBehaviour:
     longDuration: 300
   golfScene: GolfDrivingRange
   airHockeyScene: AirHockeyPlay
-  tennisScene: Tennis
+  tennisScene: TennisGamePlay
   goalkeepingScene: GoalkeepingPlay
   chestPassScene: ChestPassScene
   selectedSport: 

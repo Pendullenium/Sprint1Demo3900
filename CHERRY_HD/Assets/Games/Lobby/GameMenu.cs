@@ -31,7 +31,7 @@ public class GameMenu : MonoBehaviour
     [Header("Game Scene Names")]
     public string golfScene = "GolfGamePlay";
     public string airHockeyScene = "AirHockeyPlay";
-    public string tennisScene = "TennisPlay";
+    public string tennisScene = "TennisGamePlay";
     public string goalkeepingScene = "GoalkeepingPlay";
     public string chestPassScene = "ChestPassScene";
 
