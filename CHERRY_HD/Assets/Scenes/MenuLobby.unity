@@ -27590,7 +27590,7 @@ MonoBehaviour:
   airHockeyScene: AirHockeyPlay
   tennisScene: Tennis
   goalkeepingScene: GoalkeepingPlay
-  chestPassScene: ChestPass
+  chestPassScene: ChestPassScene
   selectedSport: 
   selectionGlow: {fileID: 112690885}
   sportButtons:
