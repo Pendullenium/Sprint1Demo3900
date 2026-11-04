@@ -6,7 +6,10 @@ using TMPro;
 public class TennisBallHit : MonoBehaviour
 {
     public Collider racketHead;
-    public Vector3 returnTarget = new Vector3(0, 0.034f, 6);
+
+    public Vector3 returnTarget =
+        new Vector3(0, 0.034f, 6);
+
     public float returnFlightTime = 1.5f;
 
     [Header("Court references")]
@@ -14,11 +17,12 @@ public class TennisBallHit : MonoBehaviour
     public Collider netCollider;
     public Timer sessionTimer;
 
-    [Header("Opposite court boundaries")]
+    [Header("Court boundaries")]
     public float leftBoundary = -4f;
     public float rightBoundary = 4f;
     public float netZ = 0f;
     public float farBaselineZ = 9f;
+    public float nearBaselineZ = -9f;
 
     [Header("Scoreboard")]
     public TMP_Text scoreText;
@@ -26,10 +30,19 @@ public class TennisBallHit : MonoBehaviour
 
     public int Score { get; private set; }
 
+    private enum BallState
+    {
+        Inactive,
+        ComingToPlayer,
+        PlayerReturnQueued,
+        GoingToOpponent,
+        OpponentPreparing
+    }
+
+    private BallState state;
     private Rigidbody body;
-    private bool waitingForLanding;
-    private bool returnQueued;
-    private bool alreadyHit;
+    private TennisBallLauncher launcher;
+    private int playerSideBounces;
     private Coroutine successRoutine;
 
     private bool MatchFinished =>
@@ -40,6 +53,7 @@ public class TennisBallHit : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
+        launcher = GetComponent<TennisBallLauncher>();
     }
 
     private void Start()
@@ -50,80 +64,123 @@ public class TennisBallHit : MonoBehaviour
             successText.gameObject.SetActive(false);
     }
 
-    // Called by the launcher before each new throw.
     public void PrepareForLaunch()
     {
-        waitingForLanding = false;
-        returnQueued = false;
-        alreadyHit = false;
+        playerSideBounces = 0;
+        state = BallState.ComingToPlayer;
+    }
+
+    public void CancelAttempt()
+    {
+        state = BallState.Inactive;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (MatchFinished || body.isKinematic)
+        if (MatchFinished || body.isKinematic ||
+            state == BallState.Inactive)
+        {
             return;
+        }
 
         if (collision.collider == racketHead)
         {
-            if (alreadyHit)
-                return;
+            // Require exactly one bounce before the player's hit.
+            if (state == BallState.ComingToPlayer &&
+                playerSideBounces == 1)
+            {
+                state = BallState.PlayerReturnQueued;
+                launcher.RefreshRally();
+            }
 
-            alreadyHit = true;
-            returnQueued = true;
             return;
         }
 
-        if (!waitingForLanding)
+        if (state == BallState.PlayerReturnQueued ||
+            state == BallState.OpponentPreparing)
+        {
             return;
+        }
 
-        // Touching the net makes this return unsuccessful.
         if (collision.collider == netCollider)
         {
-            waitingForLanding = false;
+            launcher.EndRally();
             return;
         }
 
-        if (collision.collider == courtCollider)
+        if (collision.collider != courtCollider)
         {
-            // Only the first court landing can score.
-            waitingForLanding = false;
+            launcher.EndRally();
+            return;
+        }
 
-            Vector3 landing = collision.GetContact(0).point;
+        Vector3 landing = collision.GetContact(0).point;
 
-            bool insideOppositeCourt =
-                landing.x >= leftBoundary &&
-                landing.x <= rightBoundary &&
+        bool insideWidth =
+            landing.x >= leftBoundary &&
+            landing.x <= rightBoundary;
+
+        if (state == BallState.ComingToPlayer)
+        {
+            bool insidePlayerCourt =
+                insideWidth &&
+                landing.z < netZ &&
+                landing.z >= nearBaselineZ;
+
+            if (!insidePlayerCourt)
+            {
+                launcher.EndRally();
+                return;
+            }
+
+            playerSideBounces++;
+
+            if (playerSideBounces > 1)
+                launcher.EndRally();
+        }
+        else if (state == BallState.GoingToOpponent)
+        {
+            bool insideOpponentCourt =
+                insideWidth &&
                 landing.z > netZ &&
                 landing.z <= farBaselineZ;
 
-            if (insideOppositeCourt)
-                AwardPoint();
-        }
-        else
-        {
-            // A wall or another obstacle ends the attempt.
-            waitingForLanding = false;
+            if (!insideOpponentCourt)
+            {
+                launcher.EndRally();
+                return;
+            }
+
+            state = BallState.OpponentPreparing;
+
+            AwardPoint();
+            launcher.ReturnAfterBounce();
         }
     }
 
     private void FixedUpdate()
     {
-        if (!returnQueued)
+        if (state != BallState.PlayerReturnQueued)
             return;
-
-        returnQueued = false;
 
         if (MatchFinished || body.isKinematic)
             return;
 
-        Vector3 start = body.position;
-        Vector3 target = returnTarget;
-        float duration = Mathf.Max(0.2f, returnFlightTime);
+        body.linearVelocity = CalculateVelocity(
+            body.position, returnTarget, returnFlightTime);
 
-        // Increase flight time if needed to clear the net.
+        body.angularVelocity = Vector3.zero;
+        state = BallState.GoingToOpponent;
+    }
+
+    public Vector3 CalculateVelocity(
+        Vector3 start, Vector3 target, float flightDuration)
+    {
+        float duration = Mathf.Max(0.2f, flightDuration);
         float distanceZ = target.z - start.z;
 
-        if (distanceZ > 0.01f && Physics.gravity.y < 0f)
+        if (Mathf.Abs(distanceZ) > 0.01f &&
+            Physics.gravity.y < 0f)
         {
             float fraction = (netZ - start.z) / distanceZ;
 
@@ -151,12 +208,8 @@ public class TennisBallHit : MonoBehaviour
             }
         }
 
-        body.linearVelocity =
-            (target - start) / duration
+        return (target - start) / duration
             - 0.5f * Physics.gravity * duration;
-
-        body.angularVelocity = Vector3.zero;
-        waitingForLanding = true;
     }
 
     private void AwardPoint()
