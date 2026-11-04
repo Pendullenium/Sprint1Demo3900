@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/AirHockeyPlay.unity
     guid: 2ff21a0315abcd94294d725de8ace514
   - enabled: 1
+    path: Assets/Scenes/TennisGamePlay.unity
+    guid: f5331c41b1ff25e4097d417568b0598d
+  - enabled: 1
     path: Assets/Scenes/GoalkeepingPlay.unity
     guid: 1f2162f46f3b8784c85f6833a27a96e0
   - enabled: 1

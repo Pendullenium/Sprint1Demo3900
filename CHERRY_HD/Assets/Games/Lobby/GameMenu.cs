@@ -31,7 +31,7 @@ public class GameMenu : MonoBehaviour
     [Header("Game Scene Names")]
     public string golfScene = "GolfGamePlay";
     public string airHockeyScene = "AirHockeyPlay";
-    public string tennisScene = "TennisPlay";
+    public string tennisScene = "TennisGamePlay";
     public string goalkeepingScene = "GoalkeepingPlay";
     public string chestPassScene = "ChestPassScene";
 
@@ -200,6 +200,8 @@ public class GameMenu : MonoBehaviour
     {
         if (SelectedDurationSeconds <= 0)
             return;
+
+        Data.duration = SelectedDurationSeconds;
 
         UnityEngine.Debug.Log("Loading scene: " + selectedScene);
         SceneManager.LoadScene(selectedScene);
