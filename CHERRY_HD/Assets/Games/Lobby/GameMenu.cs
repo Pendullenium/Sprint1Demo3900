@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMenu : MonoBehaviour
 {
@@ -70,8 +71,40 @@ public class GameMenu : MonoBehaviour
         ShowPanel(durationPanel);
     }
 
+    public void SelectDuration(int seconds)
+    {
+        SelectedDurationSeconds = seconds;
+
+        switch (selectedSport)
+        {
+            case "Chest Pass":
+                SceneManager.LoadScene("ChestPassScene");
+                break;
+
+            case "Golf":
+                SceneManager.LoadScene("GolfScene");
+                break;
+
+            case "Tennis":
+                SceneManager.LoadScene("TennisScene");
+                break;
+
+            case "Air Hockey":
+                SceneManager.LoadScene("AirHockeyScene");
+                break;
+
+            case "Goalkeeping":
+                SceneManager.LoadScene("GoalkeepingScene");
+                break;
+
+            default:
+                UnityEngine.Debug.LogWarning("No scene configured for: " + selectedSport);
+                break;
+        }
+    }
+
     public void printPressed()
     {
-        Debug.Log(" Golf button pressed!");
+        UnityEngine.Debug.Log(" Golf button pressed!");
     }
 }
