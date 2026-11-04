@@ -202,7 +202,6 @@ public class GameMenu : MonoBehaviour
             return;
 
         Data.duration = SelectedDurationSeconds;
-
         UnityEngine.Debug.Log("Loading scene: " + selectedScene);
         SceneManager.LoadScene(selectedScene);
     }
