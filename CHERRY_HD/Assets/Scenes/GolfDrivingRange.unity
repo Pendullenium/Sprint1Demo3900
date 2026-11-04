@@ -3724,7 +3724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6258265398747551193, guid: 02a95ad287b76154d821b469b15ebcc5, type: 3}
       propertyPath: m_Name
-      value: GolfClub (1)
+      value: GolfClub
       objectReference: {fileID: 0}
     - target: {fileID: 6258265398747551193, guid: 02a95ad287b76154d821b469b15ebcc5, type: 3}
       propertyPath: m_IsActive
