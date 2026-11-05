@@ -5,13 +5,13 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    public float timeRemaining = 0;     // in seconds
+    public float timeRemaining = GameMenu.SelectedDurationSeconds;     // in seconds
     public bool timerRunning = true;
     public TMP_Text timeDisplay;
 
     private void Start()
     {
-        timeRemaining = Data.duration;
+        timeRemaining = GameMenu.SelectedDurationSeconds;;
     }
 
     private void Update()
