@@ -2399,7 +2399,7 @@ RectTransform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1137149790}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -5481,7 +5481,7 @@ RectTransform:
   - {fileID: 75225257}
   - {fileID: 2079946178}
   - {fileID: 384686062}
-  m_Father: {fileID: 1137149790}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -5844,8 +5844,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831379851}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.3807476, y: 0, z: 0, w: 0.92467904}
+  m_LocalPosition: {x: 0, y: -0.065, z: -0.123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5855,7 +5855,7 @@ Transform:
   - {fileID: 2080518704}
   - {fileID: 292164493}
   m_Father: {fileID: 1834499177}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 44.76, y: 0, z: 0}
 --- !u!54 &1831379853
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5908,6 +5908,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 895668052497057852, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2653967066616367693, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945796313850771062, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7120614666212099580, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
@@ -5950,6 +5962,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7120614666212099583, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102560923954678882, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -7076,7 +7092,6 @@ SceneRoots:
   - {fileID: 2060752804}
   - {fileID: 1276038143}
   - {fileID: 253519755}
-  - {fileID: 1137149790}
   - {fileID: 911369427}
   - {fileID: 1250297717}
   - {fileID: 1597499254}
@@ -7123,3 +7138,5 @@ SceneRoots:
   - {fileID: 232132222}
   - {fileID: 222722338}
   - {fileID: 434678114}
+  - {fileID: 657886629}
+  - {fileID: 1610544838}
