@@ -1,37 +1,86 @@
-using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    public float timeRemaining = GameMenu.SelectedDurationSeconds;     // in seconds
+    public float timeRemaining;
     public bool timerRunning = true;
     public TMP_Text timeDisplay;
 
+    [SerializeField] private TennisBallHit tennisBall;
+    [SerializeField] private FootballController goalkeepingBall;
+    [SerializeField] private HockeyPuckController airHockeyPuck;
+    [SerializeField] private GolfGameManager golfGameManager;
+
+    private int sessionDurationSeconds;
+
     private void Start()
     {
-        timeRemaining = GameMenu.SelectedDurationSeconds;;
+        sessionDurationSeconds = GameMenu.SelectedDurationSeconds;
+        timeRemaining = sessionDurationSeconds;
     }
 
     private void Update()
     {
-        if (timerRunning)
+        if (!timerRunning)
+            return;
+
+        timeRemaining = Mathf.Max(0f, timeRemaining - Time.deltaTime);
+
+        int secondsLeft = Mathf.CeilToInt(timeRemaining);
+        if (timeDisplay != null)
+            timeDisplay.text = $"{secondsLeft / 60:00}:{secondsLeft % 60:00}";
+
+        if (timeRemaining > 0f)
+            return;
+
+        timerRunning = false;
+
+        if (tennisBall != null && sessionDurationSeconds > 0)
         {
-            if (timeRemaining > 0)
+            SessionCsvLogger.RecordSession(
+                "Tennis", sessionDurationSeconds, tennisBall.Score);
+        }
+
+        else if (goalkeepingBall != null && sessionDurationSeconds > 0)
+        {
+            try
             {
-                timeRemaining -= Time.deltaTime;
-
-                float mins = Mathf.FloorToInt(timeRemaining / 60);
-                float secs = Mathf.FloorToInt(timeRemaining % 60);
-
-                timeDisplay.text = string.Format("{0:00}:{1:00}", mins, secs);
+                SessionCsvLogger.RecordSession(
+                    "Goalkeeping", sessionDurationSeconds, goalkeepingBall.Score);
             }
-            else
+            catch (System.IO.IOException ex)
             {
-                timeRemaining = 0;
-                timerRunning = false;
-                timeDisplay.text = string.Format("00:00");
+                UnityEngine.Debug.LogWarning(
+                    $"Could not save Goalkeeping result: {ex.Message}");
+            }
+        }
+
+        else if (airHockeyPuck != null && sessionDurationSeconds > 0)
+        {
+            try
+            {
+                SessionCsvLogger.RecordSession(
+                    "Air Hockey", sessionDurationSeconds, airHockeyPuck.Score);
+            }
+            catch (System.IO.IOException ex)
+            {
+                UnityEngine.Debug.LogWarning(
+                    $"Could not save Air Hockey result: {ex.Message}");
+            }
+        }
+
+        else if (golfGameManager != null && sessionDurationSeconds > 0)
+        {
+            try
+            {
+                SessionCsvLogger.RecordSession(
+                    "Golf", sessionDurationSeconds, golfGameManager.Score);
+            }
+            catch (System.IO.IOException ex)
+            {
+                UnityEngine.Debug.LogWarning(
+                    $"Could not save Golf result: {ex.Message}");
             }
         }
     }

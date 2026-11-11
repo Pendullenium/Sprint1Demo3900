@@ -5562,6 +5562,10 @@ MonoBehaviour:
   timeRemaining: 60
   timerRunning: 1
   timeDisplay: {fileID: 1848212744}
+  tennisBall: {fileID: 0}
+  goalkeepingBall: {fileID: 0}
+  airHockeyPuck: {fileID: 0}
+  golfGameManager: {fileID: 1553058797}
 --- !u!1 &1852081644
 GameObject:
   m_ObjectHideFlags: 0

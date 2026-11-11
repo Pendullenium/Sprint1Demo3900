@@ -712,6 +712,9 @@ MonoBehaviour:
   timeRemaining: 300
   timerRunning: 1
   timeDisplay: {fileID: 464190324}
+  tennisBall: {fileID: 0}
+  goalkeepingBall: {fileID: 0}
+  airHockeyPuck: {fileID: 516681636}
 --- !u!1 &484786725
 GameObject:
   m_ObjectHideFlags: 0

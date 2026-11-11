@@ -6,6 +6,7 @@ public class ChestPassTimer : MonoBehaviour
     public float timeRemaining = 0f;
     public bool timerRunning = true;
     public TMP_Text timeDisplay;
+    public int SessionDurationSeconds { get; private set; }
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class ChestPassTimer : MonoBehaviour
             0f,
             selectedDuration > 0 ? selectedDuration : ChestPassData.duration
         );
+        SessionDurationSeconds = Mathf.RoundToInt(timeRemaining);
         timerRunning = timeRemaining > 0f;
         UpdateTimeDisplay();
     }
