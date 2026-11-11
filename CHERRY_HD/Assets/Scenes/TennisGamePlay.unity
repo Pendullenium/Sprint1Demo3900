@@ -1704,6 +1704,10 @@ MonoBehaviour:
   timeRemaining: 60
   timerRunning: 1
   timeDisplay: {fileID: 384686063}
+  tennisBall: {fileID: 553651972}
+  goalkeepingBall: {fileID: 0}
+  airHockeyPuck: {fileID: 0}
+  golfGameManager: {fileID: 0}
 --- !u!1 &434678111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2159,7 +2163,7 @@ MonoBehaviour:
   returnFlightTime: 1.5
   courtCollider: {fileID: 1599724034}
   netCollider: {fileID: 1172351850}
-  sessionTimer: {fileID: 0}
+  sessionTimer: {fileID: 384686065}
   leftBoundary: -4
   rightBoundary: 4
   netZ: 0

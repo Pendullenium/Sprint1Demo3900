@@ -1263,6 +1263,8 @@ MonoBehaviour:
   timeRemaining: 10
   timerRunning: 1
   timeDisplay: {fileID: 830598890}
+  tennisBall: {fileID: 0}
+  goalkeepingBall: {fileID: 1067033699}
 --- !u!1 &882740826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1449348600673254257, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
