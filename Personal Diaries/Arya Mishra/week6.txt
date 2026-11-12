@@ -1,3 +1,0 @@
-WEEK 6 TASKS DONE
-
-1. Created and positioned three target rings (Near, Mid, Far) for the Golf Driving Range.
