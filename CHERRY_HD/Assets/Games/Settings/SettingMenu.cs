@@ -4,7 +4,7 @@ using UnityEngine;
 public class SettingsMenu : MonoBehaviour
 {
     [SerializeField]
-    private List<Setting> settings = new List<Setting>();
+    private SettingsData settingsData;
 
     [Header("UI References")]
     [SerializeField]
@@ -26,7 +26,7 @@ public class SettingsMenu : MonoBehaviour
     {
 
         // Generate each setting
-        foreach (Setting setting in settings)
+        foreach (Setting setting in settingsData.settings)
         {
             GameObject prefab = GetPrefab(setting.type);
 
