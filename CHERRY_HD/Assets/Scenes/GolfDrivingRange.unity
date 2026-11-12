@@ -3658,17 +3658,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209708466}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 7.53}
+  m_LocalPosition: {x: 0, y: 0, z: -0.9699998}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 67388374}
   - {fileID: 783814881}
-  m_Father: {fileID: 1436324304}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 4.15}
+  m_AnchoredPosition: {x: 0, y: 4.27}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1209708468
@@ -4289,11 +4289,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1436324304 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8432682292788206755, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
-  m_PrefabInstance: {fileID: 1834499176}
-  m_PrefabAsset: {fileID: 0}
 --- !u!20 &1436324308 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8432682292788206758, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
@@ -5395,10 +5390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 8432682292788206755, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1209708467}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
 --- !u!1 &1848212742
@@ -6048,6 +6040,7 @@ SceneRoots:
   - {fileID: 1250297717}
   - {fileID: 1597499254}
   - {fileID: 1387819568}
+  - {fileID: 1209708467}
   - {fileID: 1834499176}
   - {fileID: 381623531}
   - {fileID: 173108107}
