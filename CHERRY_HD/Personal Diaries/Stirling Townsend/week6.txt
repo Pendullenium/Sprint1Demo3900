@@ -1,0 +1,3 @@
+WEEK 6 TASKS DONE
+
+1. Tested all games with the VR headset and worked on enabling hand tracking within the system.
