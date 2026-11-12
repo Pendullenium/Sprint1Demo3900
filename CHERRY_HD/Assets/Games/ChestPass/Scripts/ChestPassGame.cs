@@ -370,6 +370,19 @@ public class ChestPassGame : MonoBehaviour
 
         if (resultsPanel != null)
             resultsPanel.SetActive(true);
+
+        if (sharedTimer.SessionDurationSeconds > 0)
+        {
+            try
+            {
+                SessionCsvLogger.RecordSession(
+                    "Chest Passes", sharedTimer.SessionDurationSeconds, score);
+            }
+            catch (System.IO.IOException ex)
+            {
+                UnityEngine.Debug.LogWarning($"Could not save Chest Passes result: {ex.Message}");
+            }
+        }
     }
 
 }

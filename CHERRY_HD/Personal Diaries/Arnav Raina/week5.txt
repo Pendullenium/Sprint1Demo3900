@@ -1,0 +1,4 @@
+Bulk of the work for sprint 1 and leading into Demo A was done this WEEK5
+planned subproblems for team and which tasks to tackle first
+worked on basic scoring and incrementing system prototype alongside Anvita, her version was better
+created slides and scripts for presentation

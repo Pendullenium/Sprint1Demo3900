@@ -1,0 +1,6 @@
+WEEK 5 TASKS DONE
+
+1. Added timer functionality.
+2. Created game navigation interface.
+3. Troubleshoot GitLab storage issues.
+4. Clean git repo of unnecessary files.
