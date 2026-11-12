@@ -1,0 +1,4 @@
+WEEK 8 TASKS DONE
+
+1. Fixed gameplay issues and implemented target locking and unlocking.
+2. Added third target functionality and progression.
