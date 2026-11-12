@@ -1,0 +1,7 @@
+WEEK 9 TASKS DONE
+
+1. Integrated floor tracking to have correct heights for goalkeeping
+2. Rescaled goalkeeping and air hockey to fit a real person
+3. Fixed chest passes VR functionality
+4. Added hand tracking to chest passes
+5. Created script for tracking position of hand to determine if the ball could be caught.
