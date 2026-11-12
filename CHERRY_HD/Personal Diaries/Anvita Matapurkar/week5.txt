@@ -1,0 +1,5 @@
+WEEK5
+- created a golf scoreboard with a timer placeholder and a pause button.
+- added scoring with a success message.
+- added a dimpled texture to make the golf ball look more realistic.
+- connected buttons for navigation between start game and golf game play.
