@@ -5,12 +5,12 @@ using TMPro;
 
 public class WristMenu : MonoBehaviour
 {
-    [Header("Pause")]
-    [SerializeField] private Button pauseButton;
-    [SerializeField] private TMP_Text pauseButtonText;
-    [SerializeField] private GameObject pausePanel;
+    // [Header("Pause")]
+    // [SerializeField] private Button pauseButton;
+    // [SerializeField] private TMP_Text pauseButtonText;
+    // [SerializeField] private GameObject pausePanel;
 
-    private bool isPaused = false;
+    // private bool isPaused = false;
 
     [Header("Settings")]
     [SerializeField] private PanelPopUp settingsPanel;
@@ -31,29 +31,29 @@ public class WristMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        pauseButtonText.text = "Pause";
+        // pauseButtonText.text = "Pause";
         restartButtonText.text = "Restart";
         menuButtonText.text = "Menu";
     }
 
     // PAUSE / RESUME
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
+    // public void TogglePause()
+    // {
+    //     isPaused = !isPaused;
 
-        if (isPaused)
-        {
-            Time.timeScale = 0.01f;
-            pauseButtonText.text = "Resume";
-            pausePanel.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            pauseButtonText.text = "Pause";
-            pausePanel.SetActive(false);
-        }
-    }
+    //     if (isPaused)
+    //     {
+    //         Time.timeScale = 0.01f;
+    //         pauseButtonText.text = "Resume";
+    //         pausePanel.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         Time.timeScale = 1f;
+    //         pauseButtonText.text = "Pause";
+    //         pausePanel.SetActive(false);
+    //     }
+    // }
 
     // SETTINGS
     public void ShowSettings()
