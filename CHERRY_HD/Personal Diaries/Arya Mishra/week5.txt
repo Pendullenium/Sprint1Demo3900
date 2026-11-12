@@ -1,0 +1,5 @@
+WEEK 5 TASKS DONE
+
+1. Created the welcome menu, match duration selection and golf instructions.
+2. Connected buttons for navigation between menu screens.
+3. Built a basic golf scene with a ground plane, flagpole and golf ball.

@@ -1,0 +1,6 @@
+1. Allocated Sprint 2 Work completely with the whole team
+2. Started Chest Pass Game
+        - Made basic court
+        - Added four stations where balls come from
+        - Set Start point
+        - Got ball launching at Player
