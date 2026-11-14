@@ -1005,6 +1005,7 @@ GameObject:
   - component: {fileID: 6246465944890329779}
   - component: {fileID: 6266527329293862190}
   - component: {fileID: 2660943130230247761}
+  - component: {fileID: 2109987713124330935}
   m_Layer: 5
   m_Name: WristMenu
   m_TagString: Untagged
@@ -1021,7 +1022,7 @@ RectTransform:
   m_GameObject: {fileID: 7476703194268120482}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.003, y: 0.0030000007, z: 0.0030000007}
+  m_LocalScale: {x: 0.000015, y: 0.000015000008, z: 0.000015000008}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2521693668783816543}
@@ -1111,14 +1112,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f03ff7863654540bcd1dc6b60f8183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WristMenu
-  pauseButton: {fileID: 0}
-  pauseButtonText: {fileID: 0}
-  pausePanel: {fileID: 7188874670666419395}
   settingsPanel: {fileID: 0}
+  settingsButtonText: {fileID: 5867593531630935527}
   restartButton: {fileID: 2129100957878056219}
   restartButtonText: {fileID: 3726986745470792100}
   menuButton: {fileID: 6042480855746548305}
   menuButtonText: {fileID: 7725397613226165013}
+--- !u!114 &2109987713124330935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476703194268120482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &7506263085418052026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,7 +1258,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2660943130230247761}
         m_TargetAssemblyTypeName: WristMenu, Assembly-CSharp
-        m_MethodName: ShowSettings
+        m_MethodName: ToggleSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

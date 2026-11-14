@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4408777179246734299}
   - component: {fileID: 4452164132723526359}
   - component: {fileID: 7577786599690034510}
-  - component: {fileID: 945269365934688316}
+  - component: {fileID: 7746293834968111901}
   m_Layer: 5
   m_Name: SettingsPopup
   m_TagString: Untagged
@@ -105,7 +105,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955014317208300145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -121.00004}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -116,7 +116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -231, y: -396}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1163095505876813348
@@ -218,7 +218,7 @@ MonoBehaviour:
   settingsContainer: {fileID: 4096631039324064434}
   sliderPrefab: {fileID: 7734482467818160340, guid: c3607540de364fd4b8c8941235a22aeb, type: 3}
   togglePrefab: {fileID: 1027835351920168390, guid: aeba73a444b797e43b302ec290554b56, type: 3}
---- !u!114 &945269365934688316
+--- !u!114 &7746293834968111901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -575,6 +575,8 @@ GameObject:
   - component: {fileID: 7637418106188075458}
   - component: {fileID: 39172638237236384}
   - component: {fileID: 1624091287230155129}
+  - component: {fileID: 5504948154590863463}
+  - component: {fileID: 2047964501874583008}
   m_Layer: 5
   m_Name: SettingsCanvas
   m_TagString: Untagged
@@ -666,6 +668,40 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5504948154590863463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5868196040878105049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d25ae33a2874f9478752242c9318e18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PanelPopUp
+  playerCamera: {fileID: 0}
+  distance: 2
+  heightOffset: -0.2
+--- !u!114 &2047964501874583008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5868196040878105049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.UI.TrackedDeviceGraphicRaycaster
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &6697787149700126246
 GameObject:
   m_ObjectHideFlags: 0

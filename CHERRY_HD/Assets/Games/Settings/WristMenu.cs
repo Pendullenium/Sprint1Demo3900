@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class WristMenu : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class WristMenu : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private PanelPopUp settingsPanel;
+    [SerializeField] private TMP_Text settingsButtonText;
+
+    private bool isSettingsVisible = false;
 
     [Header("Restart")]
     [SerializeField] private Button restartButton;
@@ -55,12 +59,22 @@ public class WristMenu : MonoBehaviour
     //     }
     // }
 
-    // SETTINGS
-    public void ShowSettings()
+    public void ToggleSettings()
+{
+    isSettingsVisible = !isSettingsVisible;
+
+    if (isSettingsVisible)
     {
-        Debug.Log("Show Settings");
+        Debug.Log("Showing settings panel");
         settingsPanel.ShowPanel();
+        settingsButtonText.text = "Hide Settings";
     }
+    else
+    {
+        settingsPanel.HidePanel();
+        settingsButtonText.text = "Settings";
+    }
+}
 
     // RESTART
     public void RestartGame()
@@ -69,6 +83,7 @@ public class WristMenu : MonoBehaviour
         {
             restartPending = true;
             restartButtonText.text = "Confirm Restart?";
+            StartCoroutine(ResetRestartConfirmation());
             return;
         }
 
@@ -80,6 +95,14 @@ public class WristMenu : MonoBehaviour
         );
     }
 
+    private IEnumerator ResetRestartConfirmation()
+    {
+        yield return new WaitForSeconds(5f);
+
+        restartPending = false;
+        restartButtonText.text = "Restart";
+    }
+
     // MENU
     public void GoToMenu()
     {
@@ -87,6 +110,8 @@ public class WristMenu : MonoBehaviour
         {
             menuPending = true;
             menuButtonText.text = "Confirm Menu?";
+
+            StartCoroutine(ResetMenuConfirmation());
             return;
         }
 
@@ -94,5 +119,13 @@ public class WristMenu : MonoBehaviour
         Time.timeScale = 1f;
 
         SceneManager.LoadScene("MenuLobby");
+    }
+
+    private IEnumerator ResetMenuConfirmation()
+    {
+        yield return new WaitForSeconds(5f);
+
+        menuPending = false;
+        menuButtonText.text = "Menu";
     }
 }

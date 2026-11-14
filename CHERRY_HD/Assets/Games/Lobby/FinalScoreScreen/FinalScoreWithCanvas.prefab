@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7651305906739906445}
   - component: {fileID: 6062246336985542615}
   - component: {fileID: 4462287106125785764}
+  - component: {fileID: 4879998396045983987}
   m_Layer: 5
   m_Name: FinalScoreWithCanvas
   m_TagString: Untagged
@@ -103,6 +104,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4879998396045983987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235147720776586196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.UI.TrackedDeviceGraphicRaycaster
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1001 &2644736694228190082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -227,13 +247,65 @@ PrefabInstance:
       propertyPath: m_Name
       value: FinalScorePanel
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8596946473250710876, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8153893479625907545, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 734072671313962232}
+    - targetCorrespondingSourceObject: {fileID: 8153893479625907545, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 480668603974479410}
   m_SourcePrefab: {fileID: 100100000, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+--- !u!114 &5054303637310283370 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7104288103500717544, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+  m_PrefabInstance: {fileID: 2644736694228190082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!224 &5727239514721127780 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
   m_PrefabInstance: {fileID: 2644736694228190082}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6168679050904624859 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8153893479625907545, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+  m_PrefabInstance: {fileID: 2644736694228190082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &734072671313962232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6168679050904624859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e7d47e5a9eb634583fa4be16865435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FinalScorePanel
+  finalScoreText: {fileID: 5054303637310283370}
+  worldSpacePanel: {fileID: 480668603974479410}
+--- !u!114 &480668603974479410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6168679050904624859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d25ae33a2874f9478752242c9318e18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PanelPopUp
+  playerCamera: {fileID: 0}
+  distance: 2
+  heightOffset: -0.2
