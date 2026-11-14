@@ -1,0 +1,5 @@
+WEEK 9 TASKS DONE
+
+1. Worked on fixing golf club controller orientation and movement.
+2. Updated meeting minutes on Confluence.
+3. Organised Sprint 3 tasks on Jira.

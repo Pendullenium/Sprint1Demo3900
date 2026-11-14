@@ -1,0 +1,5 @@
+WEEK 8 TASKS DONE
+
+1. Wrote scripts for goalkeeping game
+2. Positioned Assets within goalkeeping and built basic scene.
+3. Attached goalkeeping game to main menu

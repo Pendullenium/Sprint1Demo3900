@@ -1,0 +1,3 @@
+WEEK 8
+- Added an opponent racket to return shots automatically.
+- Connected tennis to the new menu.

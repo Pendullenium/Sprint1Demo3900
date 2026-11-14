@@ -369,7 +369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6704522687499562187, guid: 0449974254086c34b9a347c3375ef0d4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.79
+      value: -1.51
       objectReference: {fileID: 0}
     - target: {fileID: 6704522687499562187, guid: 0449974254086c34b9a347c3375ef0d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1035,7 +1035,10 @@ MonoBehaviour:
   timeRemaining: 60
   timerRunning: 1
   timeDisplay: {fileID: 996928074}
-  finalScreen: {fileID: 1421857327}
+  tennisBall: {fileID: 0}
+  goalkeepingBall: {fileID: 0}
+  airHockeyPuck: {fileID: 0}
+  golfGameManager: {fileID: 0}
 --- !u!4 &1045269267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7120614666212099583, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
@@ -1446,11 +1449,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: da429158a998a0b42bd75bdc52dfd42c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da429158a998a0b42bd75bdc52dfd42c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da429158a998a0b42bd75bdc52dfd42c, type: 3}
       propertyPath: m_LocalScale.z
@@ -1458,11 +1461,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da429158a998a0b42bd75bdc52dfd42c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.24
+      value: 1.78
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da429158a998a0b42bd75bdc52dfd42c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.521
+      value: 0.634
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da429158a998a0b42bd75bdc52dfd42c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1789,17 +1792,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3b96adaa32dc604998611e5c875b161, type: 3}
---- !u!114 &1421857327 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 480668603974479410, guid: e3b96adaa32dc604998611e5c875b161, type: 3}
-  m_PrefabInstance: {fileID: 1421857326}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d25ae33a2874f9478752242c9318e18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PanelPopUp
 --- !u!1 &1430674518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,7 +2482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7120614666212099583, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3
+      value: 0.81
       objectReference: {fileID: 0}
     - target: {fileID: 7120614666212099583, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2567,6 +2559,10 @@ PrefabInstance:
     - target: {fileID: 8432682291087867102, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
       propertyPath: m_TagString
       value: Glove
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432682292834549890, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8432682292958542881, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
       propertyPath: m_TagString
@@ -2866,7 +2862,6 @@ SceneRoots:
   - {fileID: 203844589}
   - {fileID: 1087241769}
   - {fileID: 829287018}
-  - {fileID: 1726845485}
   - {fileID: 1575779639}
   - {fileID: 1791877182}
   - {fileID: 1302429337}
@@ -2877,3 +2872,4 @@ SceneRoots:
   - {fileID: 1586394426}
   - {fileID: 202848221}
   - {fileID: 1421857326}
+  - {fileID: 1726845485}

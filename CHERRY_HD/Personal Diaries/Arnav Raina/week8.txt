@@ -1,0 +1,8 @@
+1. Finished Chest Pass prototype ready for demo ball
+        - Got scoring working when ball is tapped.
+        - Got 'restart' working.
+        - Got end screen for game working.
+        - Made directional cues given after each pass for player to know which direction to look for next pass.
+        - Got the game into the game flow, added it as a button option in the menu/lobby and got timer working with changing duration.
+2. Helped Create Slides for Demo B
+3. Wrote a small script for my part of the demo

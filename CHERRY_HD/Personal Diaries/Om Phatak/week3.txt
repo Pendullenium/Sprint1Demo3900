@@ -1,0 +1,4 @@
+WEEK 3 TASKS DONE
+
+1. Created user stories and acceptance criteria.
+2. Organised sprints and allocated user stories.

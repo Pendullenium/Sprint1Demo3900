@@ -1,0 +1,6 @@
+WEEK 5 TASKS DONE
+
+1. Created Hockey Scene
+2. Set puck and paddle movements
+3. Integrated UI into hockey Scene
+4. Investigated Gitlab storage issues

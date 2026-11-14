@@ -1,0 +1,1 @@
+- Refined game menu to follow better design prinicples

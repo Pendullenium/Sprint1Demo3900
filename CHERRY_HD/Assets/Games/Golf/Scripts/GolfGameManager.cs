@@ -45,6 +45,7 @@ public class GolfGameManager : MonoBehaviour
 
     // Game state
     private int score = 0;
+    public int Score => score;
     private int currentTarget = 0;
     private int hitsOnCurrentTarget = 0;
 
