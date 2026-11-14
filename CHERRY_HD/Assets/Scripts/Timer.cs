@@ -9,9 +9,16 @@ public class Timer : MonoBehaviour
     public bool timerRunning = true;
     public TMP_Text timeDisplay;
 
+    [SerializeField] private PanelPopUp finalScreen;
+
     private void Start()
     {
         timeRemaining = GameMenu.SelectedDurationSeconds;;
+        
+        if (finalScreen != null)
+        {
+            finalScreen.HidePanel();
+        }
     }
 
     private void Update()
@@ -32,6 +39,11 @@ public class Timer : MonoBehaviour
                 timeRemaining = 0;
                 timerRunning = false;
                 timeDisplay.text = string.Format("00:00");
+                if (finalScreen != null)
+                {
+                    finalScreen.ShowPanel();
+                }
+                
             }
         }
     }

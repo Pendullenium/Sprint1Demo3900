@@ -29,8 +29,8 @@ RectTransform:
   m_GameObject: {fileID: 8235147720776586196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5727239514721127780}
   m_Father: {fileID: 0}
@@ -189,11 +189,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -7.050049
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 4.9699707
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_LocalPosition.x
@@ -205,7 +205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.35813
+      value: 6.07
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_LocalRotation.w
@@ -225,11 +225,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1270.1287
+      value: -3.5250244
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -718.03455
+      value: 0.48999023
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -307,5 +307,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PanelPopUp
   playerCamera: {fileID: 0}
-  distance: 2
+  distance: 1
   heightOffset: -0.2
