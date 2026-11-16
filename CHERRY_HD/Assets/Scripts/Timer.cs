@@ -51,6 +51,10 @@ public class Timer : MonoBehaviour
             }
             catch (System.IO.IOException ex)
             {
+                timeRemaining = 0;
+                timerRunning = false;
+                timeDisplay.text = string.Format("00:00");
+                
                 UnityEngine.Debug.LogWarning(
                     $"Could not save Goalkeeping result: {ex.Message}");
             }

@@ -245,6 +245,9 @@ public class ChestPassGame : MonoBehaviour
             Quaternion.identity
         );
 
+        float ballSize = PlayerPrefs.GetFloat("ballSize", 1f);
+        currentBall.transform.localScale *= ballSize;
+
         currentBall.Initialise(this);
 
         Rigidbody body = currentBall.GetComponent<Rigidbody>();
