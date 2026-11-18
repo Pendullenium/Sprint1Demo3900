@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -21,6 +20,7 @@ public class GolfBallController : MonoBehaviour
     public GolfClubController golfClub;
 
     private Rigidbody ballBody;
+
     private Vector3 startingPosition;
     private Quaternion startingRotation;
 
@@ -41,7 +41,7 @@ public class GolfBallController : MonoBehaviour
     {
         ballBody = GetComponent<Rigidbody>();
 
-        // Save the original position on the white mat circle.
+        // Save the ball's starting position on the mat.
         startingPosition = ballBody.position;
         startingRotation = ballBody.rotation;
     }
@@ -49,30 +49,42 @@ public class GolfBallController : MonoBehaviour
     private void FixedUpdate()
     {
         if (Time.timeScale == 0f || resetting)
+        {
             return;
+        }
 
-        // If a hole animation gets stuck, cancel and reset it.
+        // Stop checking the ball after the session ends.
+        if (gameManager != null &&
+            gameManager.SessionEnded)
+        {
+            return;
+        }
+
+        // Allow the target to control the ball while it sinks.
         if (enteringHole)
         {
-            if (Time.time - holeStartTime >= holeSequenceTimeout)
+            if (Time.time - holeStartTime >=
+                holeSequenceTimeout)
             {
-                Debug.LogWarning("[BALL] Hole timeout.", this);
-                ResetBall();
+                FinishMissedShot(
+                    "Almost! Try aiming toward the centre."
+                );
             }
 
             return;
         }
 
-        // Recover balls that fall off the course.
+        // Reset a ball that falls outside the course.
         if (ballBody.position.y < -2f)
         {
-            FinishMissedShot();
+            FinishMissedShot(
+                "Try a gentler swing."
+            );
+
             return;
         }
 
-        // Important: the club can sometimes push the ball
-        // without registering a proper shot.
-        // Return it if that happens.
+        // Reset accidental movement that was not a valid swing.
         if (!shotActive)
         {
             Vector3 offset =
@@ -80,17 +92,14 @@ public class GolfBallController : MonoBehaviour
 
             offset.y = 0f;
 
-            if (offset.magnitude > idleResetDistance)
+            if (offset.magnitude >
+                idleResetDistance)
             {
-                idleAwayTime += Time.fixedDeltaTime;
+                idleAwayTime +=
+                    Time.fixedDeltaTime;
 
                 if (idleAwayTime >= idleResetWait)
                 {
-                    Debug.Log(
-                        "[BALL] Accidental movement detected.",
-                        this
-                    );
-
                     ResetBall();
                 }
             }
@@ -104,57 +113,80 @@ public class GolfBallController : MonoBehaviour
 
         shotTime += Time.fixedDeltaTime;
 
-        // Check whether the ball has stopped rolling.
-        if (ballBody.linearVelocity.magnitude < stoppedSpeed)
-            stoppedTime += Time.fixedDeltaTime;
-        else
-            stoppedTime = 0f;
-
-        // Every valid missed shot eventually ends.
-        if (stoppedTime >= stoppedWait ||
-            shotTime >= resetAfterSeconds)
+        // Check whether the ball has stopped moving.
+        if (ballBody.linearVelocity.magnitude <
+            stoppedSpeed)
         {
-            FinishMissedShot();
+            stoppedTime += Time.fixedDeltaTime;
+        }
+        else
+        {
+            stoppedTime = 0f;
+        }
+
+        // A stopped ball counts as a missed target.
+        if (stoppedTime >= stoppedWait)
+        {
+            FinishMissedShot(
+                "Almost! Adjust your aim or swing."
+            );
+        }
+        else if (shotTime >= resetAfterSeconds)
+        {
+            FinishMissedShot(
+                "Try a gentler swing or aim closer."
+            );
         }
     }
 
-    // Called after the golf club makes a valid hit.
     public void RegisterClubHit()
     {
-        if (shotActive || enteringHole || resetting)
+        if (shotActive ||
+            enteringHole ||
+            resetting ||
+            (gameManager != null &&
+             gameManager.SessionEnded))
+        {
             return;
+        }
 
+        // Mark this as one active attempt.
         HasBeenHit = true;
         shotActive = true;
 
         shotTime = 0f;
         stoppedTime = 0f;
         idleAwayTime = 0f;
-
-        Debug.Log("[BALL] Shot registered.", this);
     }
 
-    // Retained for compatibility with existing calls.
+    // Kept for compatibility with older calls.
     public bool BeginHoleSequence()
     {
         return BeginHoleSequence(null);
     }
 
-    public bool BeginHoleSequence(GolfTargetController target)
+    public bool BeginHoleSequence(
+        GolfTargetController target)
     {
-        if (!HasBeenHit || enteringHole || resetting)
+        if (!HasBeenHit ||
+            enteringHole ||
+            resetting ||
+            (gameManager != null &&
+             gameManager.SessionEnded))
+        {
             return false;
+        }
 
+        // Give the target control of the ball.
         enteringHole = true;
         activeHoleTarget = target;
         holeStartTime = Time.time;
 
-        Debug.Log("[BALL] Entering active hole.", this);
-
         return true;
     }
 
-    public void EndHoleSequence(GolfTargetController target)
+    public void EndHoleSequence(
+        GolfTargetController target)
     {
         if (activeHoleTarget == target)
         {
@@ -164,13 +196,21 @@ public class GolfBallController : MonoBehaviour
         }
     }
 
-    private void FinishMissedShot()
+    private void FinishMissedShot(
+        string feedbackMessage)
     {
         if (resetting)
+        {
             return;
+        }
 
+        // Record only real shots as misses.
         if (shotActive && gameManager != null)
-            gameManager.ShowMiss();
+        {
+            gameManager.ShowMiss(
+                feedbackMessage
+            );
+        }
 
         ResetBall();
     }
@@ -178,20 +218,25 @@ public class GolfBallController : MonoBehaviour
     public void ResetBall()
     {
         if (resetting)
+        {
             return;
+        }
 
         resetting = true;
 
-        // Cancel an unfinished target animation before
-        // teleporting the ball back to the mat.
-        GolfTargetController previousTarget = activeHoleTarget;
+        GolfTargetController previousTarget =
+            activeHoleTarget;
+
         activeHoleTarget = null;
         enteringHole = false;
 
+        // Stop any unfinished sinking animation.
         if (previousTarget != null)
+        {
             previousTarget.CancelHoleSequence();
+        }
 
-        // Temporarily disable physical movement.
+        // Disable physics while moving the ball.
         ballBody.isKinematic = true;
         ballBody.detectCollisions = false;
 
@@ -200,10 +245,10 @@ public class GolfBallController : MonoBehaviour
 
         Physics.SyncTransforms();
 
-        // Resume normal ball physics.
         ballBody.linearVelocity = Vector3.zero;
         ballBody.angularVelocity = Vector3.zero;
 
+        // Restore normal ball physics.
         ballBody.detectCollisions = true;
         ballBody.isKinematic = false;
 
@@ -216,13 +261,11 @@ public class GolfBallController : MonoBehaviour
         idleAwayTime = 0f;
         holeStartTime = 0f;
 
-        Debug.Log("[BALL] RESET COMPLETE.", this);
-
-        // Return the club after the shot as well.
+        // Return the club after each attempt.
         if (golfClub != null)
+        {
             golfClub.ResetClub();
-        else
-            Debug.LogWarning("[BALL] Golf Club not assigned.", this);
+        }
 
         resetting = false;
     }

@@ -12,7 +12,7 @@ public class FootballController : MonoBehaviour
     public AudioSource footballAudio;
     public AudioClip netSounds;
     public AudioClip goalHit;
-    
+
 
     public Transform spawnPoint;
 
@@ -25,6 +25,8 @@ public class FootballController : MonoBehaviour
 
     private bool setForReset = false;
     private bool hitNet = false;
+
+    [SerializeField] public Animator penaltyTakerAnimator;
 
     private void Start()
     {
@@ -41,20 +43,25 @@ public class FootballController : MonoBehaviour
         {
             footballBody = GetComponent<Rigidbody>();
         }
-        Shoot();
-        
+        StartCoroutine(Shoot());
+
     }
 
-    private void Shoot()
+    private IEnumerator Shoot()
     {
+        float speedFactor = launchForce / 16;
+        penaltyTakerAnimator.speed = speedFactor;
+        penaltyTakerAnimator.Play("Penalty", 0, 0f);
+        yield return new WaitForSeconds(0.5f / speedFactor);
         Vector3 target = FindTarget();
+        footballAudio.PlayOneShot(goalHit, 0.4f);
         Launch(target);
     }
 
     Vector3 FindTarget()
     {
-        float x = Random.Range(-1.5f, 1.5f);
-        float y = Random.Range(0.1f, 1.6f);
+        float x = Random.Range(-1.3f, 1.7f);
+        float y = Random.Range(0.1f, 2f);
         float z = -7.872f;
         return new Vector3(x, y, z);
     }
@@ -72,12 +79,12 @@ public class FootballController : MonoBehaviour
 
         Vector3 direction = (target - transform.position).normalized;
 
-        footballBody.AddForce(direction * launchForce * 1/5, ForceMode.Impulse);
+        footballBody.AddForce(direction * launchForce * 1 / 5, ForceMode.Impulse);
     }
 
 
 
-    public IEnumerator ResetBall(float time)
+    private IEnumerator ResetBall(float time)
     {
         yield return new WaitForSeconds(time);
         Debug.Log($"Ball Reset.");
@@ -95,7 +102,7 @@ public class FootballController : MonoBehaviour
         footballBody.isKinematic = false;
         setForReset = false;
         hitNet = false;
-        Shoot();
+        StartCoroutine(Shoot());
         Debug.Log($"Ball Reset Over.");
     }
 
@@ -108,28 +115,28 @@ public class FootballController : MonoBehaviour
             {
                 hitNet = true;
                 footballBody.useGravity = true;
-                footballAudio.PlayOneShot(netSounds, Mathf.Min(launchForce/20, 1));
+                footballAudio.PlayOneShot(netSounds, Mathf.Min(launchForce / 20, 1));
                 return;
             }
-            
+
         }
 
         if (collision.collider.CompareTag("Glove"))
         {
             if (playerCanHit && !setForReset)
             {
-                footballAudio.PlayOneShot(goalHit, Mathf.Min(launchForce/20, 1));
+                footballAudio.PlayOneShot(goalHit, Mathf.Min(launchForce / 20, 1));
                 setForReset = true;
                 footballBody.useGravity = true;
                 playerCanHit = false;
                 launchForce++;
                 Score++;
-                Vector3 ricochet = new (0, 0, 1 );
+                Vector3 ricochet = new(0, 0, 1);
                 footballBody.AddForce(ricochet * launchForce * 1 / 5, ForceMode.Impulse);
                 UpdateScoreText();
                 StartCoroutine(ShowScoreText());
                 StartCoroutine(ResetBall(2));
-                
+
             }
         }
     }
