@@ -155,6 +155,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 213
       objectReference: {fileID: 0}
+    - target: {fileID: 1649129361397990867, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2660943130230247761, guid: 64ccc648caa731e4b839fe727498bd02, type: 3}
+    - target: {fileID: 1649129361397990867, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1649129361397990867, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: WristMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4924388992311300380, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_SizeDelta.x
       value: 300
@@ -182,6 +194,18 @@ PrefabInstance:
     - target: {fileID: 5314627100580633307, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260974483551738227, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2660943130230247761, guid: 64ccc648caa731e4b839fe727498bd02, type: 3}
+    - target: {fileID: 7260974483551738227, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260974483551738227, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: WristMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7766673046066237158, guid: 955983f7aa4631249a0bf49295e4c589, type: 3}
       propertyPath: m_Pivot.x
