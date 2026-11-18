@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class ChestPassGame : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ChestPassGame : MonoBehaviour
     [SerializeField] private ChestPassTimer sharedTimer;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text statusText;
+    [SerializeField] private TMP_Text successText;
 
     [Header("Results Screen")]
     [SerializeField] private GameObject resultsPanel;
@@ -21,9 +23,11 @@ public class ChestPassGame : MonoBehaviour
     [Header("Scene references")]
     [SerializeField] private Transform playerHead;
     [SerializeField] private Transform[] passerPositions;
+    [SerializeField] private Animator[] passerVisuals;
     [SerializeField] private ChestPassBall basketballPrefab;
     [SerializeField] private GameObject leftArrow;
     [SerializeField] private GameObject rightArrow;
+    [SerializeField] private ChestPassCatchingManager catchingManager;
 
 
     [Header("Difficulty")]
@@ -49,6 +53,7 @@ public class ChestPassGame : MonoBehaviour
     private Vector3 chestOffset = new Vector3(0f, -0.3f, 0f);
 
 
+
     private Phase phase = Phase.Idle;
     private ChestPassBall currentBall;
     private float launchTime;
@@ -66,7 +71,7 @@ public class ChestPassGame : MonoBehaviour
         if (sharedTimer == null || playerHead == null || basketballPrefab == null ||
             passerPositions == null || passerPositions.Length != 4)
         {
-            UnityEngine.Debug.LogError("Missing Chest Pass references."); 
+            UnityEngine.Debug.LogError("Missing Chest Pass references.");
             enabled = false;
             return;
         }
@@ -78,6 +83,11 @@ public class ChestPassGame : MonoBehaviour
 
     public void StartSession()
     {
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(false);
+        }
+
         if (transition != null)
         {
             StopCoroutine(transition);
@@ -198,6 +208,19 @@ public class ChestPassGame : MonoBehaviour
         );
     }
 
+    private void SetPasserVisible(int passerIndex, bool visible)
+    {
+        if (passerIndex < 0 || passerIndex >= passerPositions.Length)
+            return;
+
+        Transform passer = passerPositions[passerIndex];
+
+        foreach (Transform child in passer)
+        {
+            child.gameObject.SetActive(visible);
+        }
+    }
+
     private IEnumerator LaunchAfterDelay()
     {
         // Give the player time to prepare.
@@ -236,6 +259,7 @@ public class ChestPassGame : MonoBehaviour
         }
 
         currentPasser = targetPasser;
+        SetPasserVisible(currentPasser, false);
 
         Transform origin = passerPositions[currentPasser];
 
@@ -245,10 +269,9 @@ public class ChestPassGame : MonoBehaviour
             Quaternion.identity
         );
 
-        float ballSize = PlayerPrefs.GetFloat("ballSize", 1f);
-        currentBall.transform.localScale *= ballSize;
-
         currentBall.Initialise(this);
+        passerVisuals[currentPasser].speed = 0.8f * GetCurrentBallSpeed();
+        passerVisuals[currentPasser].Play("ChestPass", 0, 0f);
 
         Rigidbody body = currentBall.GetComponent<Rigidbody>();
         body.useGravity = false;
@@ -265,12 +288,26 @@ public class ChestPassGame : MonoBehaviour
         SetStatus("CATCH!");
     }
 
+    private IEnumerator ShowScoreText()
+    {
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(1f);
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(false);
+        }
+
+    }
 
     public void ResolveBall(ChestPassBall ball, bool success)
     {
         if (phase != Phase.Incoming || ball != currentBall) return;
         phase = Phase.Idle;
-        if (success) { caught++; score++; SetStatus("Great catch!"); }
+        if (success) { caught++; score++; StartCoroutine(ShowScoreText()); }
         else { missed++; SetStatus("Missed. Turn for the next pass."); }
         SetScore();
         Destroy(ball.gameObject);
@@ -289,6 +326,7 @@ public class ChestPassGame : MonoBehaviour
         }
         else
         {
+            SetPasserVisible(currentPasser, true);
             // Clockwise is right (+1), anticlockwise is left (-1).
             int turn = UnityEngine.Random.value < 0.5f ? -1 : 1;
             targetPasser = (currentPasser + turn + 4) % 4;
@@ -306,6 +344,13 @@ public class ChestPassGame : MonoBehaviour
         facing.y = 0f;
         if (facing.sqrMagnitude < 0.001f || direction.sqrMagnitude < 0.001f) return 0f;
         return Vector3.SignedAngle(facing, direction, Vector3.up);
+    }
+
+    public bool CanCatch(Collider other)
+    {
+        if (catchingManager == null)
+            return false;
+        return catchingManager.CanCatch(other);
     }
 
     private void SetArrows(bool left, bool right)

@@ -7089,8 +7089,6 @@ MonoBehaviour:
   rollSpeed: 2
   sinkSpeed: 0.5
   sinkDepth: 0.4
-  maxCaptureHeight: 0.35
-  maxCaptureVerticalSpeed: 1.5
   resetDelay: 1.2
 --- !u!1 &2075140780
 GameObject:
