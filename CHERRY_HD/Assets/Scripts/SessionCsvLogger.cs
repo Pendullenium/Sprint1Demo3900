@@ -13,11 +13,11 @@ public static class SessionCsvLogger
         using (var writer = File.AppendText(path))
         {
             if (needsHeader)
-                writer.WriteLine("timestamp_utc,game,selected_duration_seconds,final_score");
+                writer.WriteLine("timestamp_local,game,selected_duration_seconds,final_score");
 
             string gameField = "\"" + game.Replace("\"", "\"\"") + "\"";
             writer.WriteLine(FormattableString.Invariant(
-                $"{DateTime.UtcNow:O},{gameField},{durationSeconds},{finalScore}"));
+                $"{DateTime.Now:yyyy-MM-dd HH:mm:ss},{gameField},{durationSeconds},{finalScore}"));
         }
 
         Debug.Log($"Session saved to: {path}");
