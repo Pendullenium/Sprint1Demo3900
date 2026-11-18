@@ -55,11 +55,13 @@ public class ChestPassCatchingManager : MonoBehaviour
 
     public void SetHandTrackingMode()
     {
+        Debug.Log("HAND MODE EVENT FIRED");
         currentMode = InputMode.Hands;
     }
 
     public void SetControllerMode()
     {
+        Debug.Log("CONTROLLER MODE EVENT FIRED");
         currentMode = InputMode.Controllers;
         IsValidCatch = false;
         SetHandColour(invalidColour);

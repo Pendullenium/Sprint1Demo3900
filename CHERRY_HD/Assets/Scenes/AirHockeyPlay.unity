@@ -921,6 +921,7 @@ MonoBehaviour:
   goalkeepingBall: {fileID: 0}
   airHockeyPuck: {fileID: 516681636}
   golfGameManager: {fileID: 0}
+  finalScorePanel: {fileID: 568503268}
 --- !u!1 &484786725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,11 +1075,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 723457242017596380, guid: e3b96adaa32dc604998611e5c875b161, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 4.81
+      value: 2.36
       objectReference: {fileID: 0}
     - target: {fileID: 723457242017596380, guid: e3b96adaa32dc604998611e5c875b161, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.489
+      value: -3.03
       objectReference: {fileID: 0}
     - target: {fileID: 723457242017596380, guid: e3b96adaa32dc604998611e5c875b161, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1292,6 +1293,17 @@ CapsuleCollider:
   m_Height: 0.03
   m_Direction: 1
   m_Center: {x: 0, y: 0.044, z: 0}
+--- !u!114 &568503268 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 734072671313962232, guid: e3b96adaa32dc604998611e5c875b161, type: 3}
+  m_PrefabInstance: {fileID: 500027920}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e7d47e5a9eb634583fa4be16865435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FinalScorePanel
 --- !u!1 &622609616
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,8 @@ public class Timer : MonoBehaviour
     [SerializeField] private HockeyPuckController airHockeyPuck;
     [SerializeField] private GolfGameManager golfGameManager;
 
+    [SerializeField] private FinalScorePanel finalScorePanel;
+
     private int sessionDurationSeconds;
 
     private void Start()
@@ -40,6 +42,8 @@ public class Timer : MonoBehaviour
         {
             SessionCsvLogger.RecordSession(
                 "Tennis", sessionDurationSeconds, tennisBall.Score);
+            
+            finalScorePanel.ShowFinalScore("Score: " + tennisBall.Score);
         }
 
         else if (goalkeepingBall != null && sessionDurationSeconds > 0)
@@ -48,6 +52,8 @@ public class Timer : MonoBehaviour
             {
                 SessionCsvLogger.RecordSession(
                     "Goalkeeping", sessionDurationSeconds, goalkeepingBall.Score);
+
+                finalScorePanel.ShowFinalScore("Score: " + goalkeepingBall.Score);
             }
             catch (System.IO.IOException ex)
             {
@@ -66,6 +72,7 @@ public class Timer : MonoBehaviour
             {
                 SessionCsvLogger.RecordSession(
                     "Air Hockey", sessionDurationSeconds, airHockeyPuck.Score);
+                finalScorePanel.ShowFinalScore("Score: " + airHockeyPuck.Score);
             }
             catch (System.IO.IOException ex)
             {

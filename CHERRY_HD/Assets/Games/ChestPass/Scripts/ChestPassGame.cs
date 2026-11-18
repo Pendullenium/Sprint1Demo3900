@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class ChestPassGame : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ChestPassGame : MonoBehaviour
     [SerializeField] private ChestPassTimer sharedTimer;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text statusText;
+    [SerializeField] private TMP_Text successText;
 
     [Header("Results Screen")]
     [SerializeField] private GameObject resultsPanel;
@@ -81,6 +83,11 @@ public class ChestPassGame : MonoBehaviour
 
     public void StartSession()
     {
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(false);
+        }
+
         if (transition != null)
         {
             StopCoroutine(transition);
@@ -281,12 +288,26 @@ public class ChestPassGame : MonoBehaviour
         SetStatus("CATCH!");
     }
 
+    private IEnumerator ShowScoreText()
+    {
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(1f);
+        if (successText != null)
+        {
+            successText.gameObject.SetActive(false);
+        }
+
+    }
 
     public void ResolveBall(ChestPassBall ball, bool success)
     {
         if (phase != Phase.Incoming || ball != currentBall) return;
         phase = Phase.Idle;
-        if (success) { caught++; score++; SetStatus("Great catch!"); }
+        if (success) { caught++; score++; ShowScoreText(); }
         else { missed++; SetStatus("Missed. Turn for the next pass."); }
         SetScore();
         Destroy(ball.gameObject);
