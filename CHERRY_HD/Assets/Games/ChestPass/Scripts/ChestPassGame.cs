@@ -307,7 +307,7 @@ public class ChestPassGame : MonoBehaviour
     {
         if (phase != Phase.Incoming || ball != currentBall) return;
         phase = Phase.Idle;
-        if (success) { caught++; score++; ShowScoreText(); }
+        if (success) { caught++; score++; StartCoroutine(ShowScoreText()); }
         else { missed++; SetStatus("Missed. Turn for the next pass."); }
         SetScore();
         Destroy(ball.gameObject);
