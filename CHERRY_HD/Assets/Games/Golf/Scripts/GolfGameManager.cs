@@ -1,13 +1,29 @@
-
 using System.Collections;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GolfGameManager : MonoBehaviour
 {
     [Header("UI")]
     public TMP_Text scoreText;
     public TMP_Text feedbackText;
+    public TMP_Text targetText;
+
+    [Header("Session Results")]
+    public GameObject resultsPanel;
+    public TMP_Text resultsStats;
+    public GolfTimer sharedTimer;
+    public GolfBallController golfBall;
+
+    [Header("Combined Scoring")]
+    [Tooltip("Points awarded for every meaningful swing that hits the ball.")]
+    [Min(0)]
+    public int pointsPerValidHit = 1;
+
+    [Tooltip("Extra points awarded when the ball reaches the active target.")]
+    [Min(0)]
+    public int targetBonusPoints = 2;
 
     [Header("Feedback")]
     public float feedbackDuration = 1.5f;
@@ -16,21 +32,11 @@ public class GolfGameManager : MonoBehaviour
     public GolfTargetController nearTarget;
     public GolfTargetController midTarget;
     public GolfTargetController farTarget;
-    public TMP_Text targetText;
 
     [Header("Difficulty")]
+    [Tooltip("Successful target shots required to unlock the next target.")]
     [Min(1)]
     public int hitsPerTarget = 3;
-
-    [Header("Ring Labels")]
-    public TMP_Text nearLabel;
-    public TMP_Text midLabel;
-    public TMP_Text farLabel;
-
-    [Header("Label Colours")]
-    public Color activeColor = new Color32(55, 210, 105, 255);
-    public Color lockedColor = new Color32(155, 165, 175, 255);
-    public Color completedColor = new Color32(120, 130, 135, 255);
 
     [Header("Ring Renderers")]
     public Renderer nearRing;
@@ -43,26 +49,28 @@ public class GolfGameManager : MonoBehaviour
     public Material farActiveMaterial;
     public Material lockedRingMaterial;
 
-    // Game state
-    private int score = 0;
+    private int score;
     public int Score => score;
-    private int currentTarget = 0;
-    private int hitsOnCurrentTarget = 0;
 
-    // Allows GolfClubController to identify the active level.
-    // 0 = NEAR, 1 = MID, 2 = FAR, 3 = COMPLETE
-    public int CurrentTargetIndex => currentTarget;
+    // 0 = NEAR, 1 = MID, 2 = FAR, 3 = complete.
+    private int currentTarget;
+    private int hitsOnCurrentTarget;
 
-    private bool targetsReady = false;
+    private int totalValidHits;
+    private int successfulShots;
+    private int missedShots;
+
+    private bool targetsReady;
+    private bool sessionEnded;
+
     private Coroutine feedbackRoutine;
+
+    public int CurrentTargetIndex => currentTarget;
+    public bool SessionEnded => sessionEnded;
 
     private void Start()
     {
         hitsPerTarget = Mathf.Max(1, hitsPerTarget);
-
-        score = 0;
-        currentTarget = 0;
-        hitsOnCurrentTarget = 0;
 
         targetsReady =
             nearTarget != null &&
@@ -80,41 +88,87 @@ public class GolfGameManager : MonoBehaviour
             );
         }
 
+        InitialiseSession();
+    }
+
+    private void InitialiseSession()
+    {
+        score = 0;
+
+        currentTarget = 0;
+        hitsOnCurrentTarget = 0;
+
+        totalValidHits = 0;
+        successfulShots = 0;
+        missedShots = 0;
+
+        sessionEnded = false;
+
+        if (feedbackRoutine != null)
+        {
+            StopCoroutine(feedbackRoutine);
+            feedbackRoutine = null;
+        }
+
         if (feedbackText != null)
         {
             feedbackText.gameObject.SetActive(false);
+        }
+
+        if (resultsPanel != null)
+        {
+            resultsPanel.SetActive(false);
         }
 
         UpdateScore();
         UpdateTarget();
     }
 
-    // Retained for compatibility with existing scripts.
+    public void RegisterValidHit()
+    {
+        if (sessionEnded)
+        {
+            return;
+        }
+
+        totalValidHits++;
+        score += pointsPerValidHit;
+
+        UpdateScore();
+
+        Debug.Log(
+            "[GOLF] Valid swing recorded. Total swings: " +
+            totalValidHits,
+            this
+        );
+    }
+
+    // Kept for compatibility with older scene events.
     public void ScoreSuccess()
     {
         Debug.LogWarning(
-            "[GOLF] ScoreSuccess() called without a target. " +
-            "Use ScoreSuccess(GolfTargetController target).",
+            "[GOLF] Use ScoreSuccess(target).",
             this
         );
     }
 
     public void ScoreSuccess(GolfTargetController target)
     {
-        // Only the currently unlocked target can score.
-        if (!IsTargetActive(target))
+        if (sessionEnded || !IsTargetActive(target))
         {
             return;
         }
 
-        score++;
+        successfulShots++;
         hitsOnCurrentTarget++;
+        score += targetBonusPoints;
 
         UpdateScore();
 
         if (hitsOnCurrentTarget >= hitsPerTarget)
         {
-            string completedName = GetTargetName(currentTarget);
+            string completedName =
+                GetTargetName(currentTarget);
 
             currentTarget++;
             hitsOnCurrentTarget = 0;
@@ -122,53 +176,184 @@ public class GolfGameManager : MonoBehaviour
             if (currentTarget >= 3)
             {
                 ShowFeedback(
-                    "Great shot! +1\nAll targets completed!"
+                    "Target reached! +" +
+                    targetBonusPoints +
+                    " bonus\n" +
+                    "ALL TARGETS COMPLETE!"
                 );
             }
             else
             {
                 ShowFeedback(
-                    completedName + " COMPLETE!\n" +
-                    GetTargetName(currentTarget) + " UNLOCKED!"
+                    "Target reached! +" +
+                    targetBonusPoints +
+                    " bonus\n" +
+                    completedName +
+                    " COMPLETE\n" +
+                    GetTargetName(currentTarget) +
+                    " UNLOCKED!"
                 );
             }
         }
         else
         {
             ShowFeedback(
-                "Good shot! +1\n" +
-                hitsOnCurrentTarget + "/" +
-                hitsPerTarget + " successful shots"
+                "Target reached! +" +
+                targetBonusPoints +
+                " bonus\n" +
+                hitsOnCurrentTarget +
+                "/" +
+                hitsPerTarget +
+                " target shots"
             );
         }
 
-        // Update HUD, ring labels and materials after scoring.
         UpdateTarget();
     }
 
     public bool IsTargetActive(GolfTargetController target)
     {
-        if (!targetsReady || target == null)
+        if (!targetsReady ||
+            target == null ||
+            sessionEnded)
         {
             return false;
         }
 
-        if (currentTarget == 0)
+        switch (currentTarget)
         {
-            return target == nearTarget;
+            case 0:
+                return target == nearTarget;
+
+            case 1:
+                return target == midTarget;
+
+            case 2:
+                return target == farTarget;
+
+            default:
+                return false;
+        }
+    }
+
+    public void ShowMiss()
+    {
+        ShowMiss(
+            "Hit counted! Keep looking toward the target and try again."
+        );
+    }
+
+    public void ShowMiss(string message)
+    {
+        if (sessionEnded)
+        {
+            return;
         }
 
-        if (currentTarget == 1)
+        missedShots++;
+        ShowFeedback(message);
+    }
+
+    public void ShowGuidance(string message)
+    {
+        if (!sessionEnded)
         {
-            return target == midTarget;
+            ShowFeedback(message);
+        }
+    }
+
+    public void EndSession()
+    {
+        if (sessionEnded)
+        {
+            return;
         }
 
-        if (currentTarget == 2)
+        sessionEnded = true;
+
+        try
         {
-            return target == farTarget;
+            SessionCsvLogger.RecordSession(
+                "Golf", Mathf.RoundToInt(Data.duration), score);
+        }
+        catch (System.IO.IOException ex)
+        {
+            Debug.LogWarning($"Could not save Golf result: {ex.Message}");
         }
 
-        return false;
+        if (feedbackRoutine != null)
+        {
+            StopCoroutine(feedbackRoutine);
+            feedbackRoutine = null;
+        }
+
+        if (feedbackText != null)
+        {
+            feedbackText.gameObject.SetActive(false);
+        }
+
+        if (golfBall != null)
+        {
+            golfBall.ResetBall();
+        }
+
+        float accuracy =
+            totalValidHits > 0
+                ? (float)successfulShots /
+                  totalValidHits * 100f
+                : 0f;
+
+        int targetsCompleted =
+            Mathf.Clamp(currentTarget, 0, 3);
+
+        if (targetText != null)
+        {
+            targetText.text = "SESSION COMPLETE";
+        }
+
+        if (resultsStats != null)
+        {
+            resultsStats.text =
+                "Total Valid Swings: " +
+                totalValidHits + "\n" +
+
+                "Successful Target Shots: " +
+                successfulShots + "\n" +
+
+                "Missed Shots: " +
+                missedShots + "\n" +
+
+                "Accuracy: " +
+                accuracy.ToString("F0") +
+                "%\n" +
+
+                "Targets Completed: " +
+                targetsCompleted +
+                "/3\n" +
+
+                "Total Score: " +
+                score;
+        }
+
+        if (resultsPanel != null)
+        {
+            resultsPanel.SetActive(true);
+            resultsPanel.transform.SetAsLastSibling();
+        }
+    }
+
+    public void RestartSession()
+    {
+        Time.timeScale = 1f;
+
+        Debug.Log(
+            "[GOLF] Restart button pressed.",
+            this
+        );
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().name
+        );
     }
 
     private string GetTargetName(int targetNumber)
@@ -189,10 +374,8 @@ public class GolfGameManager : MonoBehaviour
         }
     }
 
-    // Automatically updates the target shown in the top HUD.
     private void UpdateTarget()
     {
-        UpdateRingLabels();
         UpdateRingMaterials();
 
         if (targetText == null)
@@ -202,73 +385,25 @@ public class GolfGameManager : MonoBehaviour
 
         if (!targetsReady)
         {
-            targetText.text = "Target: SETUP ERROR";
+            targetText.text = "TARGET SETUP ERROR";
         }
         else if (currentTarget >= 3)
         {
-            targetText.text = "Target: COMPLETE";
+            targetText.text =
+                "ALL TARGETS COMPLETE!";
         }
         else
         {
             targetText.text =
-                "Target: " + GetTargetName(currentTarget);
+                "ACTIVE TARGET: " +
+                GetTargetName(currentTarget) +
+                "\nPROGRESS: " +
+                hitsOnCurrentTarget +
+                " / " +
+                hitsPerTarget;
         }
     }
 
-    private void UpdateRingLabels()
-    {
-        if (!targetsReady)
-        {
-            return;
-        }
-
-        UpdateRingLabel(nearLabel, "NEAR", 0);
-        UpdateRingLabel(midLabel, "MID", 1);
-        UpdateRingLabel(farLabel, "FAR", 2);
-    }
-
-    private void UpdateRingLabel(
-        TMP_Text label,
-        string targetName,
-        int targetNumber)
-    {
-        if (label == null)
-        {
-            return;
-        }
-
-        label.alignment = TextAlignmentOptions.Center;
-
-        if (targetNumber < currentTarget)
-        {
-            label.text =
-                targetName +
-                "\n<size=60%>COMPLETE</size>";
-
-            label.color = completedColor;
-        }
-        else if (targetNumber == currentTarget)
-        {
-            label.text =
-                targetName +
-                "\n<size=60%>" +
-                hitsOnCurrentTarget + "/" +
-                hitsPerTarget +
-                " HITS</size>";
-
-            label.color = activeColor;
-        }
-        else
-        {
-            label.text =
-                targetName +
-                "\n<size=60%>LOCKED</size>";
-
-            label.color = lockedColor;
-        }
-    }
-
-    // Update ring materials based on level progression.
     private void UpdateRingMaterials()
     {
         if (!targetsReady)
@@ -276,10 +411,11 @@ public class GolfGameManager : MonoBehaviour
             return;
         }
 
-        // NEAR always stays blue.
-        SetRingMaterial(nearRing, nearActiveMaterial);
+        SetRingMaterial(
+            nearRing,
+            nearActiveMaterial
+        );
 
-        // MID stays grey until NEAR is completed.
         SetRingMaterial(
             midRing,
             currentTarget >= 1
@@ -287,7 +423,6 @@ public class GolfGameManager : MonoBehaviour
                 : lockedRingMaterial
         );
 
-        // FAR stays grey until MID is completed.
         SetRingMaterial(
             farRing,
             currentTarget >= 2
@@ -300,7 +435,6 @@ public class GolfGameManager : MonoBehaviour
         Renderer ring,
         Material material)
     {
-        // Missing references should not interrupt gameplay.
         if (ring == null || material == null)
         {
             return;
@@ -310,16 +444,6 @@ public class GolfGameManager : MonoBehaviour
         {
             ring.sharedMaterial = material;
         }
-    }
-
-    public void ShowMiss()
-    {
-        if (currentTarget >= 3)
-        {
-            return;
-        }
-
-        ShowFeedback("Oops! Try again!");
     }
 
     private void UpdateScore()
@@ -343,7 +467,9 @@ public class GolfGameManager : MonoBehaviour
         }
 
         feedbackRoutine =
-            StartCoroutine(DisplayFeedback(message));
+            StartCoroutine(
+                DisplayFeedback(message)
+            );
     }
 
     private IEnumerator DisplayFeedback(string message)
@@ -351,7 +477,9 @@ public class GolfGameManager : MonoBehaviour
         feedbackText.text = message;
         feedbackText.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(feedbackDuration);
+        yield return new WaitForSeconds(
+            feedbackDuration
+        );
 
         feedbackText.gameObject.SetActive(false);
         feedbackRoutine = null;

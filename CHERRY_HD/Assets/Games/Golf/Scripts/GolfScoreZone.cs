@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class GolfScoreZone : MonoBehaviour
@@ -7,9 +6,17 @@ public class GolfScoreZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (target == null)
-            return;
+        if (target != null)
+        {
+            target.HandleBallEntered(other);
+        }
+    }
 
-        target.HandleBallEntered(other);
+    private void OnTriggerStay(Collider other)
+    {
+        if (target != null)
+        {
+            target.HandleBallEntered(other);
+        }
     }
 }

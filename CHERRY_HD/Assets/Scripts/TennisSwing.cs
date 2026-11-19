@@ -17,6 +17,27 @@ public class DesktopTennisSwing : MonoBehaviour
     public float moveSpeed = 1.5f;
     public float sidewaysRange = 0.9f;
 
+    [Header("Hand Attachments")]
+    [SerializeField] private Transform leftHandAttach;
+    [SerializeField] private Transform rightHandAttach;
+
+    private void Start()
+    {
+        bool leftHandMode =
+            PlayerPrefs.GetInt("leftHandMode", 0) == 1;
+
+        Transform targetHand;
+
+        targetHand = leftHandMode
+            ? leftHandAttach
+            : rightHandAttach;
+
+        transform.SetParent(targetHand, false);
+
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+    }
+
 #if UNITY_EDITOR
     private bool swinging;
     private float elapsed;
