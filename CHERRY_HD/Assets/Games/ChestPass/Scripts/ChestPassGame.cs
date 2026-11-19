@@ -16,7 +16,7 @@ public class ChestPassGame : MonoBehaviour
     [SerializeField] private TMP_Text successText;
 
     [Header("Results Screen")]
-    [SerializeField] private GameObject resultsPanel;
+    [SerializeField] private FinalScorePanel resultsPanel;
     [SerializeField] private TMP_Text resultsStats;
 
 
@@ -103,8 +103,6 @@ public class ChestPassGame : MonoBehaviour
         score = caught = missed = 0;
         currentPasser = -1;
 
-        if (resultsPanel != null)
-            resultsPanel.SetActive(false);
 
         phase = Phase.Turning;
 
@@ -416,8 +414,10 @@ public class ChestPassGame : MonoBehaviour
 
         SetStatus("");
 
-        if (resultsPanel != null)
-            resultsPanel.SetActive(true);
+        resultsPanel.ShowFinalScore("Successful Catches: " + caught + "\n" +
+                "Missed Passes: " + missed + "\n" +
+                "Catch Accuracy: " + accuracy.ToString("F0") + "%\n" +
+                "Difficulty Reached: Level " + difficultyReached);
 
         if (sharedTimer.SessionDurationSeconds > 0)
         {
