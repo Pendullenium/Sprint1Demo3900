@@ -14026,6 +14026,11 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.0017
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &408179939 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a9b010a2bc9b6842b5f66cc753daa98, type: 3}
+  m_PrefabInstance: {fileID: 408179932}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &412521122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17126,6 +17131,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1645721458}
     m_Modifications:
+    - target: {fileID: -5477749408508380018, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.015
+      objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e1b13ed69e1d36643a48f70e1cd468a2, type: 2}
+    - target: {fileID: -1461304994638716399, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a5210426f5cf074aacd31d149b320e9, type: 2}
+    - target: {fileID: 4083501151425157549, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 11.2
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: de423e7b05b9e8541b01a65aa1fcd0b6, type: 3}
       propertyPath: m_LocalScale.x
       value: 6.36
@@ -17193,22 +17214,6 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: de423e7b05b9e8541b01a65aa1fcd0b6, type: 3}
       propertyPath: m_Name
       value: Stadium
-      objectReference: {fileID: 0}
-    - target: {fileID: -5477749408508380018, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.015
-      objectReference: {fileID: 0}
-    - target: {fileID: -4683669308469848369, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: e1b13ed69e1d36643a48f70e1cd468a2, type: 2}
-    - target: {fileID: -1461304994638716399, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 2a5210426f5cf074aacd31d149b320e9, type: 2}
-    - target: {fileID: 4083501151425157549, guid: ca3628c2c88e82245b2c0a660d87fe48, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 11.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54926,7 +54931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0886a38c399029e4ca274805258d0458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallSettings
-  ball: {fileID: 0}
+  ball: {fileID: 408179939}
 --- !u!4 &1586394426
 Transform:
   m_ObjectHideFlags: 0
