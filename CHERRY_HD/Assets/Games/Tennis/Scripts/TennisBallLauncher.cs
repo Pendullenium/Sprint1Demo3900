@@ -176,6 +176,7 @@ public class TennisBallLauncher : MonoBehaviour
 
         Vector3 destination = arrivalPosition;
         destination.x += offset;
+        destination.x += (Random.Range(1, 2) * offset);
 
         if (freshServe)
             start.x += offset;

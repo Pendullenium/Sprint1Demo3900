@@ -9,7 +9,7 @@ public class HockeyMalletController : MonoBehaviour
     private Transform puck;
     private float fixedY;
     private float fixedZ;
-    private bool leftHandMode = false;
+    private bool leftHandMode;
 
 
     public void switchToHand()
@@ -32,7 +32,7 @@ public class HockeyMalletController : MonoBehaviour
 
     void Start()
     {
-        bool leftHandMode = PlayerPrefs.GetInt("leftHandMode", 0) == 1;
+        leftHandMode = PlayerPrefs.GetInt("leftHandMode", 0) == 1;
         fixedY = transform.position.y;
         fixedZ = transform.position.z;
     }
