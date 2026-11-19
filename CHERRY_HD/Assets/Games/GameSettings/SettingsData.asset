@@ -26,3 +26,16 @@ MonoBehaviour:
     onToggleChanged:
       m_PersistentCalls:
         m_Calls: []
+  - settingID: leftHandMode
+    settingName: Left Hand Mode
+    type: 1
+    defaultSliderValue: 0
+    minValue: 0
+    maxValue: 0
+    defaultToggleValue: 0
+    onSliderChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    onToggleChanged:
+      m_PersistentCalls:
+        m_Calls: []
