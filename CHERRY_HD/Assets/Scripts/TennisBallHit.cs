@@ -83,9 +83,10 @@ public class TennisBallHit : MonoBehaviour
             return;
         }
 
-        if (collision.collider == racketHead)
-        {
+        if (collision.collider.CompareTag("Racket"))
+            {
             // Require exactly one bounce before the player's hit.
+            Debug.Log("Hit Tennis Racket");
             if (state == BallState.ComingToPlayer &&
                 playerSideBounces == 1)
             {
@@ -207,7 +208,10 @@ public class TennisBallHit : MonoBehaviour
                 }
             }
         }
-
+        Vector3 ret = (target - start) / duration
+            - 0.5f * Physics.gravity * duration;
+        Debug.Log($"duration = {duration}");
+        Debug.Log($"return vallue = {ret}");
         return (target - start) / duration
             - 0.5f * Physics.gravity * duration;
     }
