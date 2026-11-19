@@ -15,6 +15,7 @@ TagManager:
   - GoalNet
   - Glove
   - GoalLine
+  - Racket
   layers:
   - Default
   - TransparentFX
