@@ -840,6 +840,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+--- !u!4 &253047853 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5029829851735287363, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+  m_PrefabInstance: {fileID: 253047852}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &253047854 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8432682291087867073, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+  m_PrefabInstance: {fileID: 253047852}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &282818422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1506,8 +1516,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HockeyPuckController
   scoreText: {fileID: 622609618}
   successText: {fileID: 1927422218}
-  audioSource: {fileID: 537163650}
-  puckHitSound: {fileID: 8300000, guid: 93a3c53290b010b4894e4cd1b6b7d59b, type: 3}
   playerHitSpeed: 4
   opponentHitSpeed: 4
   maxSpeed: 8
@@ -1560,104 +1568,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rightController: {fileID: 145846590}
+  leftController: {fileID: 253047854}
   rightHand: {fileID: 1233550246}
---- !u!82 &537163650
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537163636}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 0.6
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  leftHand: {fileID: 253047853}
 --- !u!1001 &552450492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4072,9 +3985,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6258265398747551193, guid: 6388794d58112d94499cd55b91680a13, type: 3}
       insertIndex: -1
       addedObject: {fileID: 537163649}
-    - targetCorrespondingSourceObject: {fileID: 6258265398747551193, guid: 6388794d58112d94499cd55b91680a13, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 537163650}
   m_SourcePrefab: {fileID: 100100000, guid: 6388794d58112d94499cd55b91680a13, type: 3}
 --- !u!1 &2015585134
 GameObject:
