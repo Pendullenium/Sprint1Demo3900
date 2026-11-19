@@ -92,7 +92,7 @@ public class TennisBallHit : MonoBehaviour
 
         if (collision.collider.CompareTag("Racket"))
             {
-            // Require exactly one bounce before the player's hit.
+            
             Debug.Log("Hit Tennis Racket");
             if (state == BallState.ComingToPlayer &&
                 playerSideBounces == 1)
@@ -100,10 +100,11 @@ public class TennisBallHit : MonoBehaviour
                 state = BallState.PlayerReturnQueued;
                 launcher.RefreshRally();
 
-                // Play sound only for a valid racket hit.
+                Debug.Log("Hit Tennis Sound");
                 if (audioSource != null &&
                     tennisHitSound != null)
                 {
+                    Debug.Log("Hit Tennis Sound2");
                     audioSource.PlayOneShot(tennisHitSound);
                 }
             }

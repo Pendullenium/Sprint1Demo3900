@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [RequireComponent(typeof(Rigidbody))]
 public class TennisBallLauncher : MonoBehaviour
@@ -33,6 +34,9 @@ public class TennisBallLauncher : MonoBehaviour
     private Rigidbody body;
     private TennisBallHit hitController;
     private Quaternion readyRotation;
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip tennisHitSound;
 
     private float countdown = 2f;
     private float deadline;
@@ -193,6 +197,12 @@ public class TennisBallLauncher : MonoBehaviour
 
             float elapsed = 0f;
             float duration = Mathf.Max(0.1f, backswingTime);
+            if (audioSource != null &&
+                    tennisHitSound != null)
+            {
+                Debug.Log("Hit Tennis Sound2");
+                audioSource.PlayOneShot(tennisHitSound, 0.5f);
+            }
 
             while (elapsed < duration)
             {
