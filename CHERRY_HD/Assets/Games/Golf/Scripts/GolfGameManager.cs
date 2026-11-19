@@ -271,6 +271,16 @@ public class GolfGameManager : MonoBehaviour
 
         sessionEnded = true;
 
+        try
+        {
+            SessionCsvLogger.RecordSession(
+                "Golf", Mathf.RoundToInt(Data.duration), score);
+        }
+        catch (System.IO.IOException ex)
+        {
+            Debug.LogWarning($"Could not save Golf result: {ex.Message}");
+        }
+
         if (feedbackRoutine != null)
         {
             StopCoroutine(feedbackRoutine);
