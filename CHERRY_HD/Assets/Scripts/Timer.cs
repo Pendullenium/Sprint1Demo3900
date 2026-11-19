@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     [SerializeField] private TennisBallHit tennisBall;
     [SerializeField] private FootballController goalkeepingBall;
     [SerializeField] private HockeyPuckController airHockeyPuck;
-    [SerializeField] private GolfGameManager golfGameManager;
+    [SerializeField] private FinalScorePanel finalScorePanel;
 
     private int sessionDurationSeconds;
 
@@ -40,6 +40,8 @@ public class Timer : MonoBehaviour
         {
             SessionCsvLogger.RecordSession(
                 "Tennis", sessionDurationSeconds, tennisBall.Score);
+            
+            finalScorePanel.ShowFinalScore("Score: " + tennisBall.Score);
         }
 
         else if (goalkeepingBall != null && sessionDurationSeconds > 0)
@@ -48,6 +50,8 @@ public class Timer : MonoBehaviour
             {
                 SessionCsvLogger.RecordSession(
                     "Goalkeeping", sessionDurationSeconds, goalkeepingBall.Score);
+
+                finalScorePanel.ShowFinalScore("Score: " + goalkeepingBall.Score);
             }
             catch (System.IO.IOException ex)
             {
@@ -66,25 +70,12 @@ public class Timer : MonoBehaviour
             {
                 SessionCsvLogger.RecordSession(
                     "Air Hockey", sessionDurationSeconds, airHockeyPuck.Score);
+                finalScorePanel.ShowFinalScore("Score: " + airHockeyPuck.Score);
             }
             catch (System.IO.IOException ex)
             {
                 UnityEngine.Debug.LogWarning(
                     $"Could not save Air Hockey result: {ex.Message}");
-            }
-        }
-
-        else if (golfGameManager != null && sessionDurationSeconds > 0)
-        {
-            try
-            {
-                SessionCsvLogger.RecordSession(
-                    "Golf", sessionDurationSeconds, golfGameManager.Score);
-            }
-            catch (System.IO.IOException ex)
-            {
-                UnityEngine.Debug.LogWarning(
-                    $"Could not save Golf result: {ex.Message}");
             }
         }
     }
