@@ -28,6 +28,10 @@ public class TennisBallHit : MonoBehaviour
     public TMP_Text scoreText;
     public TMP_Text successText;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip tennisHitSound;
+
     public int Score { get; private set; }
 
     private enum BallState
@@ -61,7 +65,9 @@ public class TennisBallHit : MonoBehaviour
         UpdateScoreText();
 
         if (successText != null)
+        {
             successText.gameObject.SetActive(false);
+        }
     }
 
     public void PrepareForLaunch()
@@ -77,7 +83,8 @@ public class TennisBallHit : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (MatchFinished || body.isKinematic ||
+        if (MatchFinished ||
+            body.isKinematic ||
             state == BallState.Inactive)
         {
             return;
@@ -92,6 +99,13 @@ public class TennisBallHit : MonoBehaviour
             {
                 state = BallState.PlayerReturnQueued;
                 launcher.RefreshRally();
+
+                // Play sound only for a valid racket hit.
+                if (audioSource != null &&
+                    tennisHitSound != null)
+                {
+                    audioSource.PlayOneShot(tennisHitSound);
+                }
             }
 
             return;
@@ -137,7 +151,9 @@ public class TennisBallHit : MonoBehaviour
             playerSideBounces++;
 
             if (playerSideBounces > 1)
+            {
                 launcher.EndRally();
+            }
         }
         else if (state == BallState.GoingToOpponent)
         {
@@ -162,20 +178,29 @@ public class TennisBallHit : MonoBehaviour
     private void FixedUpdate()
     {
         if (state != BallState.PlayerReturnQueued)
+        {
             return;
+        }
 
         if (MatchFinished || body.isKinematic)
+        {
             return;
+        }
 
         body.linearVelocity = CalculateVelocity(
-            body.position, returnTarget, returnFlightTime);
+            body.position,
+            returnTarget,
+            returnFlightTime
+        );
 
         body.angularVelocity = Vector3.zero;
         state = BallState.GoingToOpponent;
     }
 
     public Vector3 CalculateVelocity(
-        Vector3 start, Vector3 target, float flightDuration)
+        Vector3 start,
+        Vector3 target,
+        float flightDuration)
     {
         float duration = Mathf.Max(0.2f, flightDuration);
         float distanceZ = target.z - start.z;
@@ -192,19 +217,27 @@ public class TennisBallHit : MonoBehaviour
                     : 1f;
 
                 float requiredHeight = netTop + 0.3f;
+
                 float straightHeight =
-                    Mathf.Lerp(start.y, target.y, fraction);
+                    Mathf.Lerp(
+                        start.y,
+                        target.y,
+                        fraction
+                    );
 
                 float requiredTimeSquared =
-                    2f * (requiredHeight - straightHeight) /
+                    2f *
+                    (requiredHeight - straightHeight) /
                     (-Physics.gravity.y *
-                     fraction * (1f - fraction));
+                     fraction *
+                     (1f - fraction));
 
                 if (requiredTimeSquared > 0f)
                 {
                     duration = Mathf.Max(
                         duration,
-                        Mathf.Sqrt(requiredTimeSquared));
+                        Mathf.Sqrt(requiredTimeSquared)
+                    );
                 }
             }
         }
@@ -222,10 +255,14 @@ public class TennisBallHit : MonoBehaviour
         UpdateScoreText();
 
         if (successText == null)
+        {
             return;
+        }
 
         if (successRoutine != null)
+        {
             StopCoroutine(successRoutine);
+        }
 
         successRoutine = StartCoroutine(ShowSuccess());
     }
@@ -233,7 +270,9 @@ public class TennisBallHit : MonoBehaviour
     private void UpdateScoreText()
     {
         if (scoreText != null)
+        {
             scoreText.text = "Score: " + Score;
+        }
     }
 
     private IEnumerator ShowSuccess()

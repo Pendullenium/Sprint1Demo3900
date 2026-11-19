@@ -6,12 +6,13 @@ using System.Collections;
 public class HockeyPuckController : MonoBehaviour
 {
     public int Score { get; private set; }
+
     public TMP_Text scoreText;
     public TMP_Text successText;
-    private void Start()
-    {
-        UpdateScoreText();
-    }
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip puckHitSound;
 
     private bool playerCanHit = true;
 
@@ -19,26 +20,35 @@ public class HockeyPuckController : MonoBehaviour
     public float opponentHitSpeed = 4f;
     public float maxSpeed = 6f;
 
-
     public Transform opponentSide;
     public float startingSpeed = 4f;
+
     private Rigidbody puckBody;
     private Vector3 spawnPosition;
+
+    private void Start()
+    {
+        UpdateScoreText();
+    }
+
     private void Awake()
     {
         if (successText != null)
         {
             successText.gameObject.SetActive(false);
         }
+
         puckBody = GetComponent<Rigidbody>();
+
         Vector3 startingPosition = transform.position;
         spawnPosition = opponentSide.position;
         spawnPosition.y = startingPosition.y;
-        RecoverPuck();
 
+        RecoverPuck();
     }
 
     public float fallHeight = -2f;
+
     private void FixedUpdate()
     {
         if (transform.position.y < fallHeight)
@@ -46,6 +56,7 @@ public class HockeyPuckController : MonoBehaviour
             RecoverPuck();
             return;
         }
+
         Vector3 velocity = puckBody.linearVelocity;
         velocity.y = 0f;
 
@@ -57,21 +68,21 @@ public class HockeyPuckController : MonoBehaviour
         puckBody.linearVelocity = velocity;
     }
 
-
     private void RecoverPuck()
     {
         puckBody.linearVelocity = Vector3.zero;
         puckBody.angularVelocity = Vector3.zero;
-        puckBody.position = spawnPosition;
-        puckBody.position = new Vector3(spawnPosition.x, spawnPosition.y, spawnPosition.z);
-        playerCanHit = true;
 
+        puckBody.position = new Vector3(
+            spawnPosition.x,
+            spawnPosition.y,
+            spawnPosition.z
+        );
+
+        playerCanHit = true;
         puckBody.linearVelocity = Vector3.back * startingSpeed;
 
-
         Debug.Log($"Puck reset. Velocity: {puckBody.linearVelocity}");
-
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -90,12 +101,23 @@ public class HockeyPuckController : MonoBehaviour
                 UpdateScoreText();
                 StartCoroutine(ShowScoreText());
 
-                Vector3 offset = transform.position - collision.transform.position;
+                // Play sound only for a valid player hit.
+                if (audioSource != null && puckHitSound != null)
+                {
+                    audioSource.PlayOneShot(puckHitSound);
+                }
+
+                Vector3 offset =
+                    transform.position - collision.transform.position;
+
                 Vector3 velocity = puckBody.linearVelocity;
 
                 velocity.z = playerHitSpeed;
-
-                velocity.x = Mathf.Clamp(offset.x * 3f, -playerHitSpeed, playerHitSpeed);
+                velocity.x = Mathf.Clamp(
+                    offset.x * 3f,
+                    -playerHitSpeed,
+                    playerHitSpeed
+                );
 
                 puckBody.linearVelocity = velocity;
                 playerCanHit = false;
@@ -107,21 +129,24 @@ public class HockeyPuckController : MonoBehaviour
             Debug.Log("Opponent paddle detected");
             playerCanHit = true;
 
-            float randomAngle = Random.Range(-15f, 15f) + Random.Range(-15f, 15f);
+            float randomAngle =
+                Random.Range(-15f, 15f) +
+                Random.Range(-15f, 15f);
+
             float angleRadians = randomAngle * Mathf.Deg2Rad;
 
             Vector3 velocity = puckBody.linearVelocity;
 
-            velocity.z = -opponentHitSpeed * Mathf.Cos(angleRadians);
+            velocity.z =
+                -opponentHitSpeed * Mathf.Cos(angleRadians);
 
-            velocity.x = -opponentHitSpeed * Mathf.Sin(angleRadians);
+            velocity.x =
+                -opponentHitSpeed * Mathf.Sin(angleRadians);
 
             puckBody.position += new Vector3(0f, 0f, -0.1f);
-
             puckBody.linearVelocity = velocity;
         }
     }
-
 
     private IEnumerator ShowScoreText()
     {
@@ -133,17 +158,12 @@ public class HockeyPuckController : MonoBehaviour
         Debug.Log("Good job! Target reached. Score: " + Score);
 
         yield return new WaitForSeconds(1f);
+
         if (successText != null)
         {
             successText.gameObject.SetActive(false);
         }
-
     }
-
-
-
-
-
 
     private void UpdateScoreText()
     {
@@ -152,5 +172,4 @@ public class HockeyPuckController : MonoBehaviour
             scoreText.text = "Score: " + Score;
         }
     }
-
 }
