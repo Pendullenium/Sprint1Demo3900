@@ -261,12 +261,7 @@ public class GolfBallController : MonoBehaviour
         idleAwayTime = 0f;
         holeStartTime = 0f;
 
-        // Return the club after each attempt.
-        if (golfClub != null)
-        {
-            golfClub.ResetClub();
-        }
-
+        
         resetting = false;
     }
 }
