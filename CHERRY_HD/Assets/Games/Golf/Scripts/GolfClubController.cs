@@ -419,7 +419,6 @@ public class GolfClubController : MonoBehaviour
             Vector3.zero;
 
         clubBody.useGravity = false;
-        clubBody.isKinematic = true;
         clubBody.detectCollisions = false;
 
         // Return the club to its original position.
