@@ -64,6 +64,9 @@ public class ChestPassGame : MonoBehaviour
     private int targetPasser;
     private Coroutine transition;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip catchSound;
+
     private void Start()
     {
         SetArrows(false, false);
@@ -305,7 +308,17 @@ public class ChestPassGame : MonoBehaviour
     {
         if (phase != Phase.Incoming || ball != currentBall) return;
         phase = Phase.Idle;
-        if (success) { caught++; score++; StartCoroutine(ShowScoreText()); }
+        if (success) 
+        {
+            caught++;
+            score++;
+            if (audioSource != null &&
+                    catchSound != null)
+            {
+                audioSource.PlayOneShot(catchSound);
+            }
+            StartCoroutine(ShowScoreText());
+        }
         else { missed++; SetStatus("Missed. Turn for the next pass."); }
         SetScore();
         Destroy(ball.gameObject);
