@@ -11,7 +11,6 @@ public class BallStartMarker : MonoBehaviour
     {
         LineRenderer line = GetComponent<LineRenderer>();
 
-        // Create a flat circular outline.
         line.useWorldSpace = false;
         line.loop = true;
         line.positionCount = segments;

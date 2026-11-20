@@ -101,7 +101,6 @@ public class GolfClubController : MonoBehaviour
 
     public void OnClubGrabbed()
     {
-        // Do not allow new swings after the session ends.
         if (gameManager != null &&
             gameManager.SessionEnded)
         {
