@@ -10,29 +10,42 @@ public class HockeyMalletController : MonoBehaviour
     private float fixedY;
     private float fixedZ;
     private bool leftHandMode;
-
+    private bool usingHands;
 
     public void switchToHand()
     {
-        puck = leftHandMode
-            ? leftHand
-            : rightHand;
+        usingHands = true;
+        setTracker();
     }
 
     public void switchToController()
     {
-        
-        
-        puck = leftHandMode
-            ? leftController
-            : rightController;
+        usingHands = false;
+        setTracker();
     }
 
-    
+    public void setTracker()
+    {
+        if (usingHands)
+        {
+            puck = leftHandMode
+            ? leftHand
+            : rightHand;
+        }
+        else
+        {
+            puck = leftHandMode
+            ? leftController
+            : rightController;
+        }
+
+    }
+
 
     void Start()
     {
         leftHandMode = PlayerPrefs.GetInt("leftHandMode", 0) == 1;
+        setTracker();
         fixedY = transform.position.y;
         fixedZ = transform.position.z;
     }
