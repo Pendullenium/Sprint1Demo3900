@@ -23,10 +23,8 @@ public class ChestPassMouseLook : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        // Turn left and right freely.
+        // Turn left and right
         transform.Rotate(Vector3.up * mouseX, Space.World);
-
-        // Look up and down, without flipping the camera.
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -75f, 75f);
 
@@ -35,14 +33,12 @@ public class ChestPassMouseLook : MonoBehaviour
         angles.z = 0f;
         transform.localEulerAngles = angles;
 
-        // Press Escape to release the mouse.
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
 
-        // Left-click the Game view to capture the mouse again.
         if (Input.GetMouseButtonDown(0) && lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;

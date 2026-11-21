@@ -154,7 +154,9 @@ public class GolfGameManager : MonoBehaviour
 
     public void ScoreSuccess(GolfTargetController target)
     {
-        if (sessionEnded || !IsTargetActive(target))
+        if (sessionEnded ||
+            !IsTargetActive(target) ||
+            hitsOnCurrentTarget >= hitsPerTarget)
         {
             return;
         }
@@ -170,10 +172,7 @@ public class GolfGameManager : MonoBehaviour
             string completedName =
                 GetTargetName(currentTarget);
 
-            currentTarget++;
-            hitsOnCurrentTarget = 0;
-
-            if (currentTarget >= 3)
+            if (currentTarget >= 2)
             {
                 ShowFeedback(
                     "Target reached! +" +
@@ -190,10 +189,12 @@ public class GolfGameManager : MonoBehaviour
                     " bonus\n" +
                     completedName +
                     " COMPLETE\n" +
-                    GetTargetName(currentTarget) +
+                    GetTargetName(currentTarget + 1) +
                     " UNLOCKED!"
                 );
             }
+
+            StartCoroutine(AdvanceTargetAfterDelay());
         }
         else
         {
@@ -207,6 +208,21 @@ public class GolfGameManager : MonoBehaviour
                 " target shots"
             );
         }
+
+        UpdateTarget();
+    }
+
+    private IEnumerator AdvanceTargetAfterDelay()
+    {
+        yield return new WaitForSeconds(feedbackDuration);
+
+        if (sessionEnded)
+        {
+            yield break;
+        }
+
+        currentTarget++;
+        hitsOnCurrentTarget = 0;
 
         UpdateTarget();
     }
@@ -374,7 +390,7 @@ public class GolfGameManager : MonoBehaviour
         }
     }
 
-    private void UpdateTarget()
+        private void UpdateTarget()
     {
         UpdateRingMaterials();
 
@@ -395,12 +411,13 @@ public class GolfGameManager : MonoBehaviour
         else
         {
             targetText.text =
-                "ACTIVE TARGET: " +
+                "Target: " +
                 GetTargetName(currentTarget) +
-                "\nPROGRESS: " +
+                " (" +
                 hitsOnCurrentTarget +
-                " / " +
-                hitsPerTarget;
+                "/" +
+                hitsPerTarget +
+                ")";
         }
     }
 

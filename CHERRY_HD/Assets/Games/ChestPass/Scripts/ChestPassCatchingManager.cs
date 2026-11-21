@@ -55,13 +55,13 @@ public class ChestPassCatchingManager : MonoBehaviour
 
     public void SetHandTrackingMode()
     {
-        Debug.Log("HAND MODE EVENT FIRED");
+        
         currentMode = InputMode.Hands;
     }
 
     public void SetControllerMode()
     {
-        Debug.Log("CONTROLLER MODE EVENT FIRED");
+        
         currentMode = InputMode.Controllers;
         IsValidCatch = false;
         SetHandColour(invalidColour);
@@ -69,12 +69,12 @@ public class ChestPassCatchingManager : MonoBehaviour
 
     public bool CanCatch(Collider other)
     {
-        Debug.Log(
-        "Collision object: " + other.name +
-        " | Tag: " + other.tag +
-        " | Mode: " + currentMode +
-        " | Valid pose: " + IsValidCatch
-    );
+    //    Debug.Log(
+    //    "Collision object: " + other.name +
+    //    " | Tag: " + other.tag +
+    //    " | Mode: " + currentMode +
+    //    " | Valid pose: " + IsValidCatch
+    //);
         if (currentMode == InputMode.Controllers)
             return other.CompareTag("ControllerCatch");
 

@@ -41,6 +41,10 @@ public class GolfClubController : MonoBehaviour
     [Header("Club Reset")]
     public float resetDelay = 0.5f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip ballHitSound;
+
     private Rigidbody clubBody;
     private XRGrabInteractable grabInteractable;
 
@@ -61,6 +65,11 @@ public class GolfClubController : MonoBehaviour
     private void Awake()
     {
         clubBody = GetComponent<Rigidbody>();
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
 
         grabInteractable =
             GetComponent<XRGrabInteractable>();
@@ -92,7 +101,6 @@ public class GolfClubController : MonoBehaviour
 
     public void OnClubGrabbed()
     {
-        // Do not allow new swings after the session ends.
         if (gameManager != null &&
             gameManager.SessionEnded)
         {
@@ -333,6 +341,15 @@ public class GolfClubController : MonoBehaviour
 
         // Mark the ball as hit so it cannot score twice.
         ball.RegisterClubHit();
+
+        // Play the sound for a valid club hit.
+        if (audioSource != null &&
+            ballHitSound != null)
+        {
+            audioSource.PlayOneShot(
+                ballHitSound
+            );
+        }
 
         // Reward the completed rehabilitation movement.
         if (gameManager != null)

@@ -3,27 +3,36 @@ using UnityEngine;
 public class HockeyMalletController : MonoBehaviour
 {
     [SerializeField] private Transform rightController;
+    [SerializeField] private Transform leftController;
     [SerializeField] private Transform rightHand;
+    [SerializeField] private Transform leftHand;
     private Transform puck;
     private float fixedY;
     private float fixedZ;
+    private bool leftHandMode;
+
 
     public void switchToHand()
     {
-        Debug.Log("hand");
-        puck = rightHand;
+        puck = leftHandMode
+            ? leftHand
+            : rightHand;
     }
 
     public void switchToController()
     {
-        Debug.Log("controller");
-        puck = rightController;
+        
+        
+        puck = leftHandMode
+            ? leftController
+            : rightController;
     }
 
-
+    
 
     void Start()
     {
+        leftHandMode = PlayerPrefs.GetInt("leftHandMode", 0) == 1;
         fixedY = transform.position.y;
         fixedZ = transform.position.z;
     }
