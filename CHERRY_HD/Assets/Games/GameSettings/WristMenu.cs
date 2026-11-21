@@ -40,7 +40,7 @@ public class WristMenu : MonoBehaviour
         menuButtonText.text = "Menu";
     }
 
-    // PAUSE / RESUME
+    // PAUSE / RESUME (removed due to issues)
     // public void TogglePause()
     // {
     //     isPaused = !isPaused;
@@ -59,6 +59,7 @@ public class WristMenu : MonoBehaviour
     //     }
     // }
 
+//Show or hide the settings panel
     public void ToggleSettings()
 {
     isSettingsVisible = !isSettingsVisible;
@@ -76,7 +77,7 @@ public class WristMenu : MonoBehaviour
     }
 }
 
-    // RESTART
+    // RESTART the game with confirmation
     public void RestartGame()
     {
         if (!restartPending)
@@ -90,11 +91,13 @@ public class WristMenu : MonoBehaviour
         // Reset time scale before reloading
         Time.timeScale = 1f;
 
+        // Reload the current scene
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex
         );
     }
 
+    // Reset the restart confirmation after a delay
     private IEnumerator ResetRestartConfirmation()
     {
         yield return new WaitForSeconds(5f);
@@ -106,6 +109,7 @@ public class WristMenu : MonoBehaviour
     // MENU
     public void GoToMenu()
     {
+        // If the menu button is pressed for the first time, ask for confirmation
         if (!menuPending)
         {
             menuPending = true;
@@ -120,7 +124,7 @@ public class WristMenu : MonoBehaviour
 
         SceneManager.LoadScene("MenuLobby");
     }
-
+    // Reset the menu confirmation after a delay
     private IEnumerator ResetMenuConfirmation()
     {
         yield return new WaitForSeconds(5f);

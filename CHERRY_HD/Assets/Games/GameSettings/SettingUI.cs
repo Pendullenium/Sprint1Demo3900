@@ -43,26 +43,26 @@ public class SettingUI : MonoBehaviour
         slider.minValue = setting.minValue;
         slider.maxValue = setting.maxValue;
 
+        // Load the saved value or use the default if not set
         float value = PlayerPrefs.GetFloat(
             setting.settingID,
             setting.defaultSliderValue
         );
-
+        
+        // Clamp value to ensure it stays within the defined range
         value = Mathf.Clamp(value, setting.minValue, setting.maxValue);
-
         slider.SetValueWithoutNotify(value);
 
         UpdateValueText(value);
-
+        // Add listener for slider value change
         slider.onValueChanged.AddListener(OnSliderChanged);
-
         setting.onSliderChanged?.Invoke(value);
     }
 
     private void SetupToggle(Setting setting)
     {
         toggle.gameObject.SetActive(true);
-
+        // Load the saved value or use the default if not set
         bool value = PlayerPrefs.GetInt(
             setting.settingID,
             setting.defaultToggleValue ? 1 : 0
@@ -79,25 +79,26 @@ public class SettingUI : MonoBehaviour
 
     private void OnSliderChanged(float value)
     {
+        // Save the new value to PlayerPrefs
         PlayerPrefs.SetFloat(currentSetting.settingID, value);
-
         UpdateValueText(value);
-
+        // Invoke the slider change event
         currentSetting.onSliderChanged?.Invoke(value);
     }
 
     private void OnToggleChanged(bool value)
     {
+        // Save the new value to PlayerPrefs
         PlayerPrefs.SetInt(
             currentSetting.settingID,
             value ? 1 : 0
         );
-
         UpdateValueText(value);
-
+        // Invoke the toggle change event
         currentSetting.onToggleChanged?.Invoke(value);
     }
 
+    // Update the value text based on the type of setting
     private void UpdateValueText(float value)
     {
         if (valueText != null)
@@ -110,7 +111,7 @@ public class SettingUI : MonoBehaviour
             valueText.text = value ? "On" : "Off";
     }
 
-
+    // Clean up listeners when the object is destroyed 
     private void OnDestroy()
     {
         if (slider != null)

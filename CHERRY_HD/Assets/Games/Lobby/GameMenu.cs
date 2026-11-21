@@ -40,6 +40,7 @@ public class GameMenu : MonoBehaviour
     public string selectedSport;
     private string selectedScene;
 
+    // Shows the selected sport and duration
     public UISelectedManager selectionGlow;
     public GameObject[] sportButtons;
     public GameObject[] durationButtons;
@@ -51,6 +52,7 @@ public class GameMenu : MonoBehaviour
         ShowWelcome();
     }
 
+    // Show the specified panel and hide the others
     private void ShowPanel(GameObject panelToShow)
     {
         welcomePanel.SetActive(false);
@@ -72,6 +74,7 @@ public class GameMenu : MonoBehaviour
         sportContinueButton.interactable = false;
         ShowPanel(sportPanel);
     }
+
 
     private void SelectSport(string sport, string scene)
     {
@@ -172,6 +175,7 @@ public class GameMenu : MonoBehaviour
                       SelectedDurationSeconds + " seconds)");
     }
 
+    //Get the GameDurations object corresponding to the selected sport
     private GameDurations GetSelectedDurations()
     {
         switch (selectedSport)

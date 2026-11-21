@@ -19,11 +19,13 @@ public class UISelectedManager : MonoBehaviour
 
             if (image != null)
             {
+                // Adjust the alpha based on selection
                 Color color = image.color;
                 color.a = isSelected ? 1f : unselectedAlpha;
                 image.color = color;
             }
 
+            // Set outline visibility
             Outline outline = button.GetComponent<Outline>();
 
             if (outline != null)
@@ -36,12 +38,14 @@ public class UISelectedManager : MonoBehaviour
     foreach (GameObject button in buttons)
     {
         if (button == null) continue;
-
+        
+        // Reset outline visibility
         Outline outline = button.GetComponent<Outline>();
 
         if (outline != null)
             outline.enabled = false;
 
+        // Reset button transparency
         Image image = button.GetComponent<Image>();
 
         if (image != null)

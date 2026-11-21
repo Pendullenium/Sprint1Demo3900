@@ -18,7 +18,7 @@ public class PanelToggle : MonoBehaviour
         isVisible = targetPanel.activeSelf;
         UpdateUI();
     }
-
+    // Toggle the visibility of the target panel and update the button text accordingly
     public void Toggle()
     {
         isVisible = !isVisible;
@@ -26,6 +26,7 @@ public class PanelToggle : MonoBehaviour
         UpdateUI();
     }
 
+    // Update the button text based on the current visibility state of the target panel
     private void UpdateUI()
     {
         if (buttonText != null)

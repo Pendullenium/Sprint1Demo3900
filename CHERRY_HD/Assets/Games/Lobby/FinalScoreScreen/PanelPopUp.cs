@@ -7,6 +7,7 @@ public class PanelPopUp : MonoBehaviour
     [SerializeField]
     private Transform playerCamera;
 
+    // Distance in front of the player where the panel will appear
     [Header("Position Settings")]
     [SerializeField]
     private float distance = 2f;

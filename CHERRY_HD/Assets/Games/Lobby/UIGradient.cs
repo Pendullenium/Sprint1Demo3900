@@ -6,7 +6,7 @@ public class UIGradient : BaseMeshEffect
 {
     public Color topColor = Color.blue;
     public Color bottomColor = Color.magenta;
-
+    // Apply a vertical gradient to the UI element's mesh
     public override void ModifyMesh(VertexHelper vh)
     {
         if (!IsActive()) return;

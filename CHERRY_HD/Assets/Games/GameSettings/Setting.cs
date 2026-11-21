@@ -8,6 +8,8 @@ public enum SettingType
     Toggle
 }
 
+
+//Defines a setting with its properties and events for changes
 [Serializable]
 public class Setting
 {

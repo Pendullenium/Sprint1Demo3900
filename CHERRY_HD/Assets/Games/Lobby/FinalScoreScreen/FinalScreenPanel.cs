@@ -10,22 +10,16 @@ public class FinalScorePanel : MonoBehaviour
     [SerializeField]
     private PanelPopUp worldSpacePanel;
 
+    // Show the final score panel with the provided text
     public void ShowFinalScore(string finalText)
     {
         finalScoreText.text = finalText;
         worldSpacePanel.ShowPanel();
     }
-
+    
     public void HideFinalScore()
     {
         worldSpacePanel.HidePanel();
     }
-
-    private void Update()
-{
-    if (Keyboard.current != null && Keyboard.current.pKey.wasPressedThisFrame)
-    {
-        ShowFinalScore("hello");
-    }
-}
+    
 }
