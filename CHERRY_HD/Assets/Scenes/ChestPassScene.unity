@@ -1939,6 +1939,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3656588269044328794, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4330584026439821515, guid: ea6fd0f17b5196945b5619c857bdee5c, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -7233,7 +7237,7 @@ GameObject:
   - component: {fileID: 2066272674}
   - component: {fileID: 2066272673}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: EnvironmentScoreboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

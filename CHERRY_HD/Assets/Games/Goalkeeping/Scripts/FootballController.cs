@@ -2,7 +2,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class FootballController : MonoBehaviour
 {
