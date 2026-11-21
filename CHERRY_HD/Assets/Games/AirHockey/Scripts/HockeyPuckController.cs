@@ -101,10 +101,9 @@ public class HockeyPuckController : MonoBehaviour
                 UpdateScoreText();
                 StartCoroutine(ShowScoreText());
 
-                // Play sound only for a valid player hit.
                 if (audioSource != null && puckHitSound != null)
                 {
-                    audioSource.PlayOneShot(puckHitSound);
+                    audioSource.PlayOneShot(puckHitSound, 0.6f);
                 }
 
                 Vector3 offset =
@@ -134,6 +133,11 @@ public class HockeyPuckController : MonoBehaviour
                 Random.Range(-15f, 15f);
 
             float angleRadians = randomAngle * Mathf.Deg2Rad;
+
+            if (audioSource != null && puckHitSound != null)
+            {
+                audioSource.PlayOneShot(puckHitSound, 0.2f);
+            }
 
             Vector3 velocity = puckBody.linearVelocity;
 

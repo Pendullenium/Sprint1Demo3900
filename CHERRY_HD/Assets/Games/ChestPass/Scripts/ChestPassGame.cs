@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class ChestPassGame : MonoBehaviour
 {
@@ -64,6 +62,9 @@ public class ChestPassGame : MonoBehaviour
     private int targetPasser;
     private Coroutine transition;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip catchSound;
+
     private void Start()
     {
         SetArrows(false, false);
@@ -76,7 +77,6 @@ public class ChestPassGame : MonoBehaviour
             return;
         }
 
-        // Timer.Start() loads Data.duration. Do not override its countdown here.
         StartSession();
     }
 
@@ -164,7 +164,6 @@ public class ChestPassGame : MonoBehaviour
             Rigidbody body = currentBall.GetComponent<Rigidbody>();
             Vector3 relative = currentBall.transform.position - (playerHead.position + chestOffset);
             Vector3 velocity = body.linearVelocity;
-            // Once a ball has crossed the player's chest plane it counts as a miss.
             if (Vector3.Dot(relative, velocity) > 0f && Time.time - launchTime > 0.15f)
                 currentBall.Miss();
             else if (Time.time - launchTime >= missedBallLifetime)
@@ -221,7 +220,7 @@ public class ChestPassGame : MonoBehaviour
 
     private IEnumerator LaunchAfterDelay()
     {
-        // Give the player time to prepare.
+        
 
         int preparationSeconds = GetPreparationSeconds();
 
@@ -305,7 +304,17 @@ public class ChestPassGame : MonoBehaviour
     {
         if (phase != Phase.Incoming || ball != currentBall) return;
         phase = Phase.Idle;
-        if (success) { caught++; score++; StartCoroutine(ShowScoreText()); }
+        if (success) 
+        {
+            caught++;
+            score++;
+            if (audioSource != null &&
+                    catchSound != null)
+            {
+                audioSource.PlayOneShot(catchSound);
+            }
+            StartCoroutine(ShowScoreText());
+        }
         else { missed++; SetStatus("Missed. Turn for the next pass."); }
         SetScore();
         Destroy(ball.gameObject);
@@ -313,19 +322,16 @@ public class ChestPassGame : MonoBehaviour
         SelectNextPasser();
     }
 
-    // Passer positions MUST be ordered: Front, Right, Back, Left.
-    // Each new direction is exactly one 90-degree turn from the last passer.
+    // Passer positions must be ordered: Front, Right, Back, Left
     private void SelectNextPasser()
     {
         if (currentPasser < 0)
         {
-            // Begin facing the Front station; the first ball comes from Front.
             targetPasser = 0;
         }
         else
         {
             SetPasserVisible(currentPasser, true);
-            // Clockwise is right (+1), anticlockwise is left (-1).
             int turn = UnityEngine.Random.value < 0.5f ? -1 : 1;
             targetPasser = (currentPasser + turn + 4) % 4;
         }
