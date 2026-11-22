@@ -5,13 +5,16 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 [RequireComponent(typeof(Rigidbody))]
 public class GolfClubController : MonoBehaviour
 {
+    // club head for hitting the ball
     [Header("Club")]
     public Transform clubHead;
     public Collider headCollider;
 
+   // link to main golf game manager for scoring and feedback
     [Header("Game Manager")]
     public GolfGameManager gameManager;
 
+   // power settings to reach different target distances, and lift for airborne shots
     [Header("NEAR Shot Settings")]
     public float hitPower = 3.5f;
     public float maxBallSpeed = 14f;
@@ -35,28 +38,35 @@ public class GolfClubController : MonoBehaviour
     public float minSwingSpeed = 0.5f;
     public float hitCooldown = 1f;
 
+    // prevents a hit immediately after grabbing
     [Header("Grab Protection")]
     public float grabProtectionSeconds = 0.75f;
 
+    // delay before club returns to original position after a hit or release
     [Header("Club Reset")]
     public float resetDelay = 0.5f;
 
+    // sound played when the club head hits the ball
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip ballHitSound;
 
+    //club head movement state
     private Rigidbody clubBody;
     private XRGrabInteractable grabInteractable;
 
     private Vector3 clubVelocity;
     private Vector3 previousHeadPosition;
 
+    // club  original state after reset
     private Vector3 startingPosition;
     private Quaternion startingRotation;
 
+    // flags if club is curerently held or if a reset is pending
     private bool isHeld;
     private bool resetPending;
 
+    // prevents hits from happening too quickly
     private float shotsAllowedAfter;
     private float nextHitTime;
 
@@ -74,11 +84,11 @@ public class GolfClubController : MonoBehaviour
         grabInteractable =
             GetComponent<XRGrabInteractable>();
 
-        // Save the club's original position and rotation.
+        // save the club's original position and rotation
         startingPosition = clubBody.position;
         startingRotation = clubBody.rotation;
 
-        // Find the club-head collider if it was not assigned.
+        // find the club-head collider if it was not assigned
         if (clubHead != null &&
             headCollider == null)
         {
@@ -86,7 +96,7 @@ public class GolfClubController : MonoBehaviour
                 clubHead.GetComponent<Collider>();
         }
 
-        // Keep the club stable while it is not being held.
+        // keep the club stable while it is not being held
         clubBody.useGravity = false;
         clubBody.linearVelocity = Vector3.zero;
         clubBody.angularVelocity = Vector3.zero;
@@ -99,6 +109,7 @@ public class GolfClubController : MonoBehaviour
         }
     }
 
+    // when player grabs the club , ignore  any accidental movement
     public void OnClubGrabbed()
     {
         if (gameManager != null &&
@@ -123,11 +134,11 @@ public class GolfClubController : MonoBehaviour
                 clubHead.position;
         }
 
-        // Ignore movement briefly after grabbing the club.
         shotsAllowedAfter =
             Time.time + grabProtectionSeconds;
     }
 
+   // when player releases the club, reset for next swing
     public void OnClubReleased()
     {
         isHeld = false;
@@ -145,6 +156,7 @@ public class GolfClubController : MonoBehaviour
         ResetClub();
     }
 
+    // clears the club state when disabled
     private void OnDisable()
     {
         isHeld = false;
@@ -168,7 +180,7 @@ public class GolfClubController : MonoBehaviour
         Vector3 currentPosition =
             clubHead.position;
 
-        // Measure the speed and direction of the club head.
+        // measure the speed and direction of the club head
         Vector3 measuredVelocity =
             (currentPosition -
              previousHeadPosition) /
@@ -185,7 +197,7 @@ public class GolfClubController : MonoBehaviour
             return;
         }
 
-        // Only use horizontal movement for the golf shot.
+        // only use horizontal movement for the golf shot
         clubVelocity =
             Vector3.ProjectOnPlane(
                 measuredVelocity,
@@ -202,7 +214,7 @@ public class GolfClubController : MonoBehaviour
             ? gameManager.CurrentTargetIndex
             : 0;
 
-        // Use stronger settings for more distant targets.
+        // use stronger settings for more distant targets
         switch (level)
         {
             case 1:
@@ -237,7 +249,7 @@ public class GolfClubController : MonoBehaviour
             return;
         }
 
-        // Ignore collisions while paused or during cooldown.
+        // ignore collisions while paused or during cooldown
         if (Time.timeScale == 0f ||
             Time.time < shotsAllowedAfter ||
             Time.time < nextHitTime)
@@ -263,7 +275,7 @@ public class GolfClubController : MonoBehaviour
         GolfBallController ball =
             ballBody.GetComponent<GolfBallController>();
 
-        // Each ball reset allows only one registered hit.
+        // each ball reset allows only one registered hit
         if (ball == null || ball.HasBeenHit)
         {
             return;
@@ -271,7 +283,7 @@ public class GolfClubController : MonoBehaviour
 
         bool headTouchedBall = false;
 
-        // Make sure the club head caused the collision.
+        // make sure the club head caused the collision
         for (int i = 0;
              i < collision.contactCount;
              i++)
@@ -301,7 +313,7 @@ public class GolfClubController : MonoBehaviour
         float swingSpeed =
             horizontalVelocity.magnitude;
 
-        // Require a meaningful swing instead of a small tap.
+        // require a meaningful swing instead of a small tap
         if (swingSpeed < minSwingSpeed)
         {
             if (gameManager != null)
@@ -332,17 +344,17 @@ public class GolfClubController : MonoBehaviour
             direction * launchSpeed +
             Vector3.up * selectedLift;
 
-        // Launch the ball using the measured swing direction.
+        // launch ball using the measured swing direction
         ballBody.linearVelocity =
             launchVelocity;
 
         ballBody.angularVelocity =
             Vector3.zero;
 
-        // Mark the ball as hit so it cannot score twice.
+        // marks ball as hit so it cannot score twice
         ball.RegisterClubHit();
 
-        // Play the sound for a valid club hit.
+        // play sound  for a valid club hit
         if (audioSource != null &&
             ballHitSound != null)
         {
@@ -351,7 +363,7 @@ public class GolfClubController : MonoBehaviour
             );
         }
 
-        // Reward the completed rehabilitation movement.
+        // reward the completed rehabilitation movement
         if (gameManager != null)
         {
             gameManager.RegisterValidHit();
@@ -360,7 +372,7 @@ public class GolfClubController : MonoBehaviour
         nextHitTime =
             Time.time + hitCooldown;
 
-        // Give helpful feedback without changing the score.
+        // give helpful feedback without changing the score
         if (gameManager != null)
         {
             float speedRatio =
@@ -416,7 +428,7 @@ public class GolfClubController : MonoBehaviour
             resetDelay
         );
 
-        // Wait until the player releases the club.
+        // wait until the player releases the club
         while (grabInteractable != null &&
                grabInteractable.isSelected)
         {
@@ -438,7 +450,7 @@ public class GolfClubController : MonoBehaviour
         clubBody.useGravity = false;
         clubBody.detectCollisions = false;
 
-        // Return the club to its original position.
+        // return the club to its original position
         clubBody.position = startingPosition;
         clubBody.rotation = startingRotation;
 

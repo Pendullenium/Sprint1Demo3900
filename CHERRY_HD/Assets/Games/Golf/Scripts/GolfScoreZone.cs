@@ -4,6 +4,7 @@ public class GolfScoreZone : MonoBehaviour
 {
     public GolfTargetController target;
 
+    // target connected to scoring zone
     private void OnTriggerEnter(Collider other)
     {
         if (target != null)
@@ -12,6 +13,7 @@ public class GolfScoreZone : MonoBehaviour
         }
     }
 
+    // checks when ball enters scoring zone around the hole
     private void OnTriggerStay(Collider other)
     {
         if (target != null)

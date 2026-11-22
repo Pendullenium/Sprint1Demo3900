@@ -5,17 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class GolfGameManager : MonoBehaviour
 {
+    // text shown in the game
     [Header("UI")]
     public TMP_Text scoreText;
     public TMP_Text feedbackText;
     public TMP_Text targetText;
 
+    // final session results
     [Header("Session Results")]
     public GameObject resultsPanel;
     public TMP_Text resultsStats;
     public GolfTimer sharedTimer;
     public GolfBallController golfBall;
 
+    // points for swings + shots
     [Header("Combined Scoring")]
     [Tooltip("Points awarded for every meaningful swing that hits the ball.")]
     [Min(0)]
@@ -28,6 +31,7 @@ public class GolfGameManager : MonoBehaviour
     [Header("Feedback")]
     public float feedbackDuration = 1.5f;
 
+    // NEAR, MID and FAR targets
     [Header("Target Progression")]
     public GolfTargetController nearTarget;
     public GolfTargetController midTarget;
@@ -43,6 +47,7 @@ public class GolfGameManager : MonoBehaviour
     public Renderer midRing;
     public Renderer farRing;
 
+    // materials for the target rings
     [Header("Ring Materials")]
     public Material nearActiveMaterial;
     public Material midActiveMaterial;
@@ -52,14 +57,16 @@ public class GolfGameManager : MonoBehaviour
     private int score;
     public int Score => score;
 
-    // 0 = NEAR, 1 = MID, 2 = FAR, 3 = complete.
+    // 0 = NEAR, 1 = MID, 2 = FAR, 3 = complete
     private int currentTarget;
     private int hitsOnCurrentTarget;
 
+    // player performance stats
     private int totalValidHits;
     private int successfulShots;
     private int missedShots;
 
+    // current game state
     private bool targetsReady;
     private bool sessionEnded;
 
@@ -70,8 +77,9 @@ public class GolfGameManager : MonoBehaviour
 
     private void Start()
     {
+        // make sure at least one hit is required
         hitsPerTarget = Mathf.Max(1, hitsPerTarget);
-
+       // checks that all three targets are assigned and are different from each other
         targetsReady =
             nearTarget != null &&
             midTarget != null &&
@@ -91,6 +99,7 @@ public class GolfGameManager : MonoBehaviour
         InitialiseSession();
     }
 
+    // starts a new session, resetting all scores and targets
     private void InitialiseSession()
     {
         score = 0;
@@ -104,6 +113,7 @@ public class GolfGameManager : MonoBehaviour
 
         sessionEnded = false;
 
+        // stops any old feedback
         if (feedbackRoutine != null)
         {
             StopCoroutine(feedbackRoutine);
@@ -123,7 +133,7 @@ public class GolfGameManager : MonoBehaviour
         UpdateScore();
         UpdateTarget();
     }
-
+    // responsible for recording a valid swing  and score addition
     public void RegisterValidHit()
     {
         if (sessionEnded)
@@ -143,7 +153,7 @@ public class GolfGameManager : MonoBehaviour
         );
     }
 
-    // Kept for compatibility with older scene events.
+    // kept for compatibility with older scene events
     public void ScoreSuccess()
     {
         Debug.LogWarning(
@@ -152,8 +162,10 @@ public class GolfGameManager : MonoBehaviour
         );
     }
 
+    // records a successful target shot
     public void ScoreSuccess(GolfTargetController target)
     {
+        // only count hits on the active target
         if (sessionEnded ||
             !IsTargetActive(target) ||
             hitsOnCurrentTarget >= hitsPerTarget)
@@ -167,6 +179,7 @@ public class GolfGameManager : MonoBehaviour
 
         UpdateScore();
 
+        // checks if the current target is complete
         if (hitsOnCurrentTarget >= hitsPerTarget)
         {
             string completedName =
@@ -227,6 +240,7 @@ public class GolfGameManager : MonoBehaviour
         UpdateTarget();
     }
 
+    // checks if this is the active target
     public bool IsTargetActive(GolfTargetController target)
     {
         if (!targetsReady ||
@@ -259,6 +273,7 @@ public class GolfGameManager : MonoBehaviour
         );
     }
 
+    // records a missed shot and shows feedback
     public void ShowMiss(string message)
     {
         if (sessionEnded)
@@ -270,6 +285,7 @@ public class GolfGameManager : MonoBehaviour
         ShowFeedback(message);
     }
 
+    // shows guidance text if the session is still active
     public void ShowGuidance(string message)
     {
         if (!sessionEnded)
@@ -278,6 +294,7 @@ public class GolfGameManager : MonoBehaviour
         }
     }
 
+    // game end session showing results and saving to CSV
     public void EndSession()
     {
         if (sessionEnded)
@@ -327,6 +344,7 @@ public class GolfGameManager : MonoBehaviour
             targetText.text = "SESSION COMPLETE";
         }
 
+        // result summary text
         if (resultsStats != null)
         {
             resultsStats.text =
@@ -390,6 +408,7 @@ public class GolfGameManager : MonoBehaviour
         }
     }
 
+        // updates the current target text
         private void UpdateTarget()
     {
         UpdateRingMaterials();
@@ -421,6 +440,7 @@ public class GolfGameManager : MonoBehaviour
         }
     }
 
+   // updates the target ring materials
     private void UpdateRingMaterials()
     {
         if (!targetsReady)
@@ -463,6 +483,7 @@ public class GolfGameManager : MonoBehaviour
         }
     }
 
+    // updates the score on screen
     private void UpdateScore()
     {
         if (scoreText != null)

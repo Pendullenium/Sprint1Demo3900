@@ -4,13 +4,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GolfMenuController : MonoBehaviour
-{
+{   // menu screens
     [Header("Menu Panels")]
     public GameObject welcomePanel;
     public GameObject gameSelectionPanel;
     public GameObject matchDurationPanel;
     public GameObject golfInstructionsPanel;
 
+    // buttons to choose a game and then continue to next page
     [Header("Game Buttons")]
     public Button golfButton;
     public Button airHockeyButton;
@@ -19,20 +20,21 @@ public class GolfMenuController : MonoBehaviour
     public Button chestPassButton;
     public Button gameContinue;
 
+    // buttons to choose the match duration
     [Header("Duration Buttons")]
     public Button shortButton;
     public Button mediumButton;
     public Button longButton;
     public Button continueButton;
 
-    // Store the selected game duration.
+    // store the selected game duration
     public static int SelectedDurationSeconds { get; private set; }
 
-    // Store the scene that the player selected.
+    // store the scene that the player selected
     private string currentGame = null;
 
     private void Start()
-    {
+    {   // reset all menu seelctions
         SelectedDurationSeconds = 0;
 
         UpdateDurationButtons();
@@ -51,7 +53,7 @@ public class GolfMenuController : MonoBehaviour
 
     public void SelectGame(string game)
     {
-        // Open the new driving range for Golf.
+        // open the Golf Driving range
         if (game == "Golf")
         {
             currentGame = "GolfDrivingRange";
@@ -63,7 +65,7 @@ public class GolfMenuController : MonoBehaviour
     }
 
     public void ShowMatchDuration()
-    {
+    {   // a game to be selected before duration is chosen
         if (string.IsNullOrEmpty(currentGame))
         {
             return;
@@ -90,13 +92,14 @@ public class GolfMenuController : MonoBehaviour
 
     private void SelectDuration(int seconds)
     {
+        // save the player's duration choice
         SelectedDurationSeconds = seconds;
         UpdateDurationButtons();
     }
 
     private void UpdateDurationButtons()
     {
-        // Disable the selected duration button.
+        // disable the selected duration button
         if (shortButton != null)
         {
             shortButton.interactable =
@@ -115,7 +118,7 @@ public class GolfMenuController : MonoBehaviour
                 SelectedDurationSeconds != 180;
         }
 
-        // Continue only after choosing a duration.
+        // continue only after choosing a duration
         if (continueButton != null)
         {
             continueButton.interactable =
@@ -125,6 +128,7 @@ public class GolfMenuController : MonoBehaviour
 
     public void ShowGolfInstructions()
     {
+        // instructions will show only after a game is chosen  and duration is selected
         if (SelectedDurationSeconds <= 0)
         {
             return;
@@ -135,27 +139,29 @@ public class GolfMenuController : MonoBehaviour
 
     public void StartGame()
     {
+        // check that a game was selected
         if (string.IsNullOrEmpty(currentGame))
         {
             Debug.LogWarning("No game has been selected.");
             return;
         }
-
+        // check that a duration was selected
         if (SelectedDurationSeconds <= 0)
         {
             Debug.LogWarning("Please select a duration.");
             return;
         }
 
-        // Save the duration for the game scene.
+        // save the duration for the game scene
         Data.duration = SelectedDurationSeconds;
 
-        // Open the selected game.
+        // open the selected game
         SceneManager.LoadScene(currentGame);
     }
 
     private void ShowPanel(GameObject selectedPanel)
     {
+        //  only the selected menu panel will be active, all others will be hidden
         if (welcomePanel != null)
         {
             welcomePanel.SetActive(
