@@ -6315,6 +6315,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5504948154590863463, guid: 0449974254086c34b9a347c3375ef0d4, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1375352643}
     - target: {fileID: 5868196040878105049, guid: 0449974254086c34b9a347c3375ef0d4, type: 3}
       propertyPath: m_Name
       value: SettingsCanvas
@@ -14026,6 +14030,11 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.0017
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &408179939 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a9b010a2bc9b6842b5f66cc753daa98, type: 3}
+  m_PrefabInstance: {fileID: 408179932}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &412521122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55055,7 +55064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0886a38c399029e4ca274805258d0458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallSettings
-  ball: {fileID: 0}
+  ball: {fileID: 408179939}
 --- !u!4 &1586394426
 Transform:
   m_ObjectHideFlags: 0

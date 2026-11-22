@@ -25,7 +25,7 @@ public class SettingsMenu : MonoBehaviour
     private void GenerateSettings()
     {
 
-        // Generate each setting
+        // Generate each setting from the settings data
         foreach (Setting setting in settingsData.settings)
         {
             GameObject prefab = GetPrefab(setting.type);
@@ -35,11 +35,12 @@ public class SettingsMenu : MonoBehaviour
                 Debug.LogWarning("Missing prefab for: " + setting.settingName);
                 continue;
             }
-
+            
+            //Create an instance of the prefab with and add it to the settings container
             GameObject instance = Instantiate(prefab, settingsContainer);
-
+            
+            // Get the SettingUI component from the instantiated prefab and set it up with the current setting
             SettingUI settingUI = instance.GetComponent<SettingUI>();
-
             if (settingUI != null)
             {
                 settingUI.Setup(setting);

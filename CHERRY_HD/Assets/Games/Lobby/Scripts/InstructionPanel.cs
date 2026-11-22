@@ -27,7 +27,7 @@ public class InstructionPanel : MonoBehaviour
     [Header("Chest Pass")]
     public Sprite chestPassImage;
     [TextArea] public string chestPassText;
-
+    //SHow instructions for the selected sport
     public void ChangeInstructions(string sport)
     {
         switch (sport)
