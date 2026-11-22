@@ -14,12 +14,15 @@ public class Timer : MonoBehaviour
 
     private int sessionDurationSeconds;
 
+    // sets the timer to the duration selected in the menu
     private void Start()
     {
         sessionDurationSeconds = GameMenu.SelectedDurationSeconds;
         timeRemaining = sessionDurationSeconds;
     }
 
+    // updates the countdown and displays the remaining time
+    // saves the result and shows the final score when time runs out
     private void Update()
     {
         if (!timerRunning)
