@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// includes mouse and keyboard practice in the Unity Editor
 #if UNITY_EDITOR
 using UnityEngine.InputSystem;
 #endif
@@ -21,6 +22,7 @@ public class DesktopTennisSwing : MonoBehaviour
     [SerializeField] private Transform leftHandAttach;
     [SerializeField] private Transform rightHandAttach;
 
+    // attaches the racket to the hand selected in the player's settings
     private void Start()
     {
         bool leftHandMode =
@@ -44,6 +46,7 @@ public class DesktopTennisSwing : MonoBehaviour
     private float angle = -55f;
     private float sidewaysOffset;
 
+    // reads desktop input and updates sideways movement and the swing angle
     private void Update()
     {
         if (!desktopPractice || Time.timeScale == 0f)
@@ -67,9 +70,11 @@ public class DesktopTennisSwing : MonoBehaviour
                 direction += 1f;
             }
 
+            // updates sideways movement based on speed and time between frames
             sidewaysOffset +=
                 direction * moveSpeed * Time.deltaTime;
 
+            // keeps sideways movement within the allowed range
             sidewaysOffset = Mathf.Clamp(
                 sidewaysOffset,
                 -sidewaysRange,
@@ -88,10 +93,12 @@ public class DesktopTennisSwing : MonoBehaviour
             return;
 
         elapsed += Time.deltaTime;
-
+        
+        // calculates how far the swing has progressed
         float progress =
             elapsed / Mathf.Max(0.1f, swingDuration);
 
+        // moves the racket backwards during the first part of the swing
         if (progress < 0.25f)
         {
             angle = Mathf.Lerp(
@@ -99,12 +106,14 @@ public class DesktopTennisSwing : MonoBehaviour
         }
         else if (progress < 0.8f)
         {
+            // swings the racket forwards
             angle = Mathf.Lerp(
                 -75f, 65f,
                 (progress - 0.25f) / 0.55f);
         }
         else
         {
+            // returns the racket towards its resting angle
             angle = Mathf.Lerp(
                 65f, -55f,
                 (progress - 0.8f) / 0.2f);
@@ -117,6 +126,7 @@ public class DesktopTennisSwing : MonoBehaviour
         }
     }
 
+    // applies the racket's practice position and swing rotation after Update()
     private void LateUpdate()
     {
         if (!desktopPractice)
