@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class GolfTargetController : MonoBehaviour
 {
+    // golf scoring hole
     [Header("Target")]
     public Transform hole;
     public GolfGameManager gameManager;
 
+    // ball speed for sinking into the scoring hole
     [Header("Guided Ball Movement")]
     public float rollSpeed = 2f;
     public float sinkSpeed = 0.5f;
@@ -18,8 +20,10 @@ public class GolfTargetController : MonoBehaviour
     private bool processingHit;
     private Coroutine holeRoutine;
 
+    // handles when a ball enters the scoring zone
     public void HandleBallEntered(Collider other)
     {
+        // ignore if already hit is made or if hole is not set or game ended
         if (processingHit ||
             hole == null ||
             gameManager == null ||
@@ -31,13 +35,13 @@ public class GolfTargetController : MonoBehaviour
         GolfBallController ball =
             other.GetComponentInParent<GolfBallController>();
 
-        // The ball must first be hit by the golf club.
+        // ball must first be hit by the golf club
         if (ball == null || !ball.HasBeenHit)
         {
             return;
         }
 
-        // Only the currently active target can score.
+        // only the currently active target can score
         if (!gameManager.IsTargetActive(this))
         {
             return;
@@ -50,7 +54,7 @@ public class GolfTargetController : MonoBehaviour
             return;
         }
 
-        // Prevent duplicate scoring from repeated trigger events.
+        // prevent duplicate scoring from repeated trigger events
         if (!ball.BeginHoleSequence(this))
         {
             return;
@@ -67,12 +71,13 @@ public class GolfTargetController : MonoBehaviour
         GolfBallController ball,
         Rigidbody body)
     {
-        // Stop natural physics and guide the ball safely.
+        // disable physics and guide the ball safely
         body.linearVelocity = Vector3.zero;
         body.angularVelocity = Vector3.zero;
         body.isKinematic = true;
         body.detectCollisions = false;
 
+        // position the ball to roll into the hole
         Vector3 rollTarget = new Vector3(
             hole.position.x,
             body.position.y,
@@ -81,6 +86,7 @@ public class GolfTargetController : MonoBehaviour
 
         float moveSpeed = Mathf.Max(0.01f, rollSpeed);
 
+       // roll the ball to the hole
         while (Vector3.Distance(
                    body.position,
                    rollTarget) > 0.02f)
@@ -99,12 +105,13 @@ public class GolfTargetController : MonoBehaviour
         body.MovePosition(rollTarget);
         yield return new WaitForFixedUpdate();
 
-        // Lower the ball into the hole.
+        // set target position for sinking the ball into the hole
         Vector3 sinkTarget =
             rollTarget + Vector3.down * sinkDepth;
 
         float lowerSpeed = Mathf.Max(0.01f, sinkSpeed);
 
+        // lower the ball into the hole
         while (Vector3.Distance(
                    body.position,
                    sinkTarget) > 0.02f)
@@ -122,11 +129,12 @@ public class GolfTargetController : MonoBehaviour
 
         body.MovePosition(sinkTarget);
 
-        // Score exactly once.
+        // score exactly once
         gameManager.ScoreSuccess(this);
 
         yield return new WaitForSeconds(resetDelay);
 
+        // stop and reset the ball after scoring
         processingHit = false;
         holeRoutine = null;
 
@@ -145,6 +153,7 @@ public class GolfTargetController : MonoBehaviour
         processingHit = false;
     }
 
+    // stop sinking ball into hole animation if the target is disabled
     private void OnDisable()
     {
         CancelHoleSequence();

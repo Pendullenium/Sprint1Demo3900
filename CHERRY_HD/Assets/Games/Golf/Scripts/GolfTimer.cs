@@ -3,23 +3,28 @@ using UnityEngine;
 
 public class GolfTimer : MonoBehaviour
 {
+    // stores remaining session time in sec
     public float timeRemaining;
     public bool timerRunning = true;
     public TMP_Text timeDisplay;
 
+    // link timer to main game manager to end session when time runs out
     [Header("Golf Session")]
     public GolfGameManager gameManager;
 
+    // flag to end game properly
     private bool endReported;
 
     private void Start()
     {
+        // initialize timer with session duration
         timeRemaining = Mathf.Max(0, Data.duration);
         timerRunning = timeRemaining > 0;
         endReported = false;
 
         UpdateDisplay();
 
+        // if the timer is not running at the start, end the session immediately
         if (!timerRunning)
         {
             FinishTimer();
@@ -32,9 +37,10 @@ public class GolfTimer : MonoBehaviour
         {
             return;
         }
-
+        // count down the remaining time and display in UI
         timeRemaining -= Time.deltaTime;
 
+        // end the session if time runs out
         if (timeRemaining <= 0f)
         {
             timeRemaining = 0f;
@@ -48,6 +54,7 @@ public class GolfTimer : MonoBehaviour
         UpdateDisplay();
     }
 
+    // update the timer display in the UI
     private void UpdateDisplay()
     {
         if (timeDisplay == null)
@@ -55,6 +62,7 @@ public class GolfTimer : MonoBehaviour
             return;
         }
 
+        // convert remaining time to minutes and seconds
         int totalSeconds =
             Mathf.CeilToInt(timeRemaining);
 
@@ -68,6 +76,7 @@ public class GolfTimer : MonoBehaviour
         );
     }
 
+   // informs game manager to end session when timer reaches zero
     private void FinishTimer()
     {
         if (endReported)
@@ -83,6 +92,7 @@ public class GolfTimer : MonoBehaviour
         }
     }
 
+    // starts timer again with the original session duration
     public void RestartTimer()
     {
         timeRemaining = Mathf.Max(0, Data.duration);
