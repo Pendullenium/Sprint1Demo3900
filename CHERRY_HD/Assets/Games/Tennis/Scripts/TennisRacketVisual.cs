@@ -9,6 +9,7 @@ public class TennisRacketVisual : MonoBehaviour
     private const float RadiusX = 0.14f;
     private const float RadiusY = 0.18f;
 
+    // creates the oval racket frame and its strings
     private void Start()
     {
         LineRenderer frame = GetComponent<LineRenderer>();
@@ -24,6 +25,7 @@ public class TennisRacketVisual : MonoBehaviour
         if (frameMaterial != null)
             frame.sharedMaterial = frameMaterial;
 
+        // forms racket frame
         for (int i = 0; i < frame.positionCount; i++)
         {
             float angle =
@@ -35,6 +37,7 @@ public class TennisRacketVisual : MonoBehaviour
                 0f));
         }
 
+        // creates vertical strings of the racket
         for (int i = -6; i <= 6; i++)
         {
             float x = i * 0.02f;
@@ -47,6 +50,7 @@ public class TennisRacketVisual : MonoBehaviour
                 new Vector3(x, height, 0f));
         }
 
+        // creates horizontal strings of the racket
         for (int i = -8; i <= 8; i++)
         {
             float y = i * 0.02f;
@@ -60,6 +64,7 @@ public class TennisRacketVisual : MonoBehaviour
         }
     }
 
+    // creates one racket string between the given start and end positions
     private void CreateString(Vector3 start, Vector3 end)
     {
         GameObject stringObject = new GameObject("RacketString");

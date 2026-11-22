@@ -7,6 +7,7 @@ public class TennisBallHit : MonoBehaviour
 {
     public Collider racketHead;
 
+    // Target position for the ball after the player's hit
     public Vector3 returnTarget =
         new Vector3(0, 0.034f, 6);
 
@@ -34,6 +35,7 @@ public class TennisBallHit : MonoBehaviour
 
     public int Score { get; private set; }
 
+    // ball's current state in the rally
     private enum BallState
     {
         Inactive,
@@ -70,19 +72,22 @@ public class TennisBallHit : MonoBehaviour
         }
     }
 
+    // resets the bounce count for a new incoming ball
     public void PrepareForLaunch()
     {
         playerSideBounces = 0;
         state = BallState.ComingToPlayer;
     }
 
+    // sets the ball's state as inactive to stop the current rally
     public void CancelAttempt()
     {
         state = BallState.Inactive;
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
+    {   
+        // ignores collisions when the ball or match is inactive
         if (MatchFinished ||
             body.isKinematic ||
             state == BallState.Inactive)
@@ -91,9 +96,10 @@ public class TennisBallHit : MonoBehaviour
         }
 
         if (collision.collider.CompareTag("Racket"))
-            {
-            
+        {
             Debug.Log("Hit Tennis Racket");
+
+            // allows a return hit only after one bounce on the player's side
             if (state == BallState.ComingToPlayer &&
                 playerSideBounces == 1)
             {
@@ -112,12 +118,14 @@ public class TennisBallHit : MonoBehaviour
             return;
         }
 
+        // ignores collisions while waiting for a return hit
         if (state == BallState.PlayerReturnQueued ||
             state == BallState.OpponentPreparing)
         {
             return;
         }
 
+        // ends the rally if the ball hits the net
         if (collision.collider == netCollider)
         {
             launcher.EndRally();
@@ -130,6 +138,7 @@ public class TennisBallHit : MonoBehaviour
             return;
         }
 
+        // stores the contact point where the ball landed
         Vector3 landing = collision.GetContact(0).point;
 
         bool insideWidth =
@@ -138,6 +147,7 @@ public class TennisBallHit : MonoBehaviour
 
         if (state == BallState.ComingToPlayer)
         {
+            // checks if the bounce is on the player's side of the court
             bool insidePlayerCourt =
                 insideWidth &&
                 landing.z < netZ &&
@@ -151,13 +161,15 @@ public class TennisBallHit : MonoBehaviour
 
             playerSideBounces++;
 
+            // ends rally if the ball bounces more than once on the player's side
             if (playerSideBounces > 1)
             {
                 launcher.EndRally();
             }
         }
         else if (state == BallState.GoingToOpponent)
-        {
+        {   
+            // checks if the player's return lands inside the opposite court
             bool insideOpponentCourt =
                 insideWidth &&
                 landing.z > netZ &&
@@ -176,6 +188,8 @@ public class TennisBallHit : MonoBehaviour
         }
     }
 
+    // applies calculated velocity towards the opponent's court
+    // clears the ball's spin and sets its state to GoingToOpponent
     private void FixedUpdate()
     {
         if (state != BallState.PlayerReturnQueued)
@@ -198,6 +212,7 @@ public class TennisBallHit : MonoBehaviour
         state = BallState.GoingToOpponent;
     }
 
+    // calculates the launch velocity needed to reach the target
     public Vector3 CalculateVelocity(
         Vector3 start,
         Vector3 target,
@@ -209,6 +224,7 @@ public class TennisBallHit : MonoBehaviour
         if (Mathf.Abs(distanceZ) > 0.01f &&
             Physics.gravity.y < 0f)
         {
+            // calculates the net's location along the ball's path
             float fraction = (netZ - start.z) / distanceZ;
 
             if (fraction > 0f && fraction < 1f)
@@ -226,6 +242,7 @@ public class TennisBallHit : MonoBehaviour
                         fraction
                     );
 
+                // calculates flight time required to clear the net
                 float requiredTimeSquared =
                     2f *
                     (requiredHeight - straightHeight) /
@@ -242,6 +259,9 @@ public class TennisBallHit : MonoBehaviour
                 }
             }
         }
+
+        // calculates velocity needed to reach the target,
+        // accounting for velocity
         Vector3 ret = (target - start) / duration
             - 0.5f * Physics.gravity * duration;
         Debug.Log($"duration = {duration}");
@@ -250,6 +270,7 @@ public class TennisBallHit : MonoBehaviour
             - 0.5f * Physics.gravity * duration;
     }
 
+    // increments score, updates scoreboard and displays success message
     private void AwardPoint()
     {
         Score++;
@@ -268,6 +289,7 @@ public class TennisBallHit : MonoBehaviour
         successRoutine = StartCoroutine(ShowSuccess());
     }
 
+    // displays current score on the scoreboard
     private void UpdateScoreText()
     {
         if (scoreText != null)
@@ -276,6 +298,7 @@ public class TennisBallHit : MonoBehaviour
         }
     }
 
+    // displays successful hit text
     private IEnumerator ShowSuccess()
     {
         successText.text = "Good shot! +1";

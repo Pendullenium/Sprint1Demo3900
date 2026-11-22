@@ -23,7 +23,7 @@ public class ScoreHistoryUI : MonoBehaviour
         instructionCard.SetActive(false);
         scoreHistoryPanel.SetActive(true);
 
-        // Display CSV content as plain text.
+        // Displays CSV content as plain text.
         scoreHistoryText.richText = true;
         string path = Path.Combine(Application.persistentDataPath, "session_results.csv");
 
@@ -41,7 +41,7 @@ public class ScoreHistoryUI : MonoBehaviour
             display.AppendLine("<b>Date & Time<pos=360>Game<pos=580>Duration<pos=750>Score</b>");
             display.AppendLine();
 
-            // Read newest results first, skip header
+            // Reads newest results first, skips header
             for (int i = lines.Length - 1; i >= 1 && count < 8; i--)
             {
                 if (string.IsNullOrWhiteSpace(lines[i]))
@@ -79,12 +79,14 @@ public class ScoreHistoryUI : MonoBehaviour
         instructionCard.SetActive(true);
     }
 
+    // splits a CSV row into fields
     private static List<string> ParseCsvLine(string line)
     {
         var fields = new List<string>();
         var field = new StringBuilder();
         bool insideQuotes = false;
 
+        // reads the row one character at a time
         for (int i = 0; i < line.Length; i++)
         {
             char character = line[i];

@@ -50,6 +50,8 @@ public class TennisBallLauncher : MonoBehaviour
         (!sessionTimer.timerRunning ||
          sessionTimer.timeRemaining <= 0f);
 
+    // gets the ball's componenets and places at the launch position
+    // keeps the ball stationary until a shot begins
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
@@ -59,17 +61,20 @@ public class TennisBallLauncher : MonoBehaviour
         body.position = launchPosition;
     }
 
+    // stores the opponents racket's starting rotation
     private void Start()
     {
         if (opponentRacket != null)
             readyRotation = opponentRacket.rotation;
     }
 
+    
     private void Update()
     {
         if (sessionEnded)
             return;
 
+        // stops the ball when the match ends
         if (MatchFinished)
         {
             StopAllCoroutines();
@@ -85,6 +90,7 @@ public class TennisBallLauncher : MonoBehaviour
         {
             Vector3 p = body.position;
 
+            // checks if the rally timed out or the ball went out of bounds
             if (Time.time > deadline ||
                 p.y < -1f ||
                 p.z < -10f ||
@@ -97,6 +103,7 @@ public class TennisBallLauncher : MonoBehaviour
             return;
         }
 
+        // starts a new serve when the countdown finishes
         countdown -= Time.deltaTime;
 
         if (countdown <= 0f)
@@ -108,11 +115,13 @@ public class TennisBallLauncher : MonoBehaviour
         }
     }
 
+    // resets the time limit for the current rally
     public void RefreshRally()
     {
         deadline = Time.time + rallyTimeout;
     }
 
+    // prepares the opponent's return after a bounce in their court
     public void ReturnAfterBounce()
     {
         if (!rallyActive || animating || sessionEnded)
@@ -131,13 +140,13 @@ public class TennisBallLauncher : MonoBehaviour
         yield return OpponentShot(contactPosition, false);
     }
 
+    // ends current rally, resets the ball and sets delay before the next serve
     public void EndRally()
     {
         if (sessionEnded)
             return;
 
         StopAllCoroutines();
-
         rallyActive = false;
         animating = false;
         countdown = restartDelay;
@@ -148,6 +157,7 @@ public class TennisBallLauncher : MonoBehaviour
         body.position = launchPosition;
     }
 
+    // clears ball's velocity and spin 
     private void FreezeBall()
     {
         if (!body.isKinematic)
@@ -159,14 +169,16 @@ public class TennisBallLauncher : MonoBehaviour
         body.isKinematic = true;
     }
 
+    // chooses the next shot's direction and animates the opponent's swing
+    // launches the ball towards the player's court and refreshes the rally timer
     private IEnumerator OpponentShot(
         Vector3 start, bool freshServe)
     {
         animating = true;
         FreezeBall();
 
+        // chooses a centre, left or right offset for the shot
         float offset = 0f;
-
         if (nextLane == 1)
             offset = -sidewaysDistance;
         else if (nextLane == 2)
@@ -205,6 +217,7 @@ public class TennisBallLauncher : MonoBehaviour
                 audioSource.PlayOneShot(tennisHitSound, 0.5f);
             }
 
+            // rotates the racket from its backswing towards the ready position
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
@@ -225,12 +238,14 @@ public class TennisBallLauncher : MonoBehaviour
             opponentRacket.rotation = readyRotation;
         }
 
+        // places the ball at the shot's starting position
         body.position = start;
         body.rotation = Quaternion.identity;
         body.isKinematic = false;
 
         hitController.PrepareForLaunch();
 
+        // applies the velocity needed to reach the chosen landing position
         body.linearVelocity = hitController.CalculateVelocity(
             start, destination, flightTime);
 
@@ -243,6 +258,7 @@ public class TennisBallLauncher : MonoBehaviour
             float duration =
                 Mathf.Max(0.1f, followThroughTime);
 
+            // continues the racket's forward swing after launching the ball
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
