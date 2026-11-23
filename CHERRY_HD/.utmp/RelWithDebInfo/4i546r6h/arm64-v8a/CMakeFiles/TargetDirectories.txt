@@ -1,0 +1,8 @@
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/StirlingTownsend/Desktop/temp39/Sprint1Demo3900/CHERRY_HD/.utmp/RelWithDebInfo/4i546r6h/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir
